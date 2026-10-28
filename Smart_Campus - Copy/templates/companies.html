@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies & Campus Drives - AMITY7ONE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f4f8;
+            color: #2c3e50;
+        }
+
+        /* Top Bar */
+        .top {
+            height: 75px;
+            background: linear-gradient(135deg, #07549a, #0b69be);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(7, 84, 154, 0.2);
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.home-btn {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-btn.home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.profile-btn {
+            background: #28a745;
+        }
+
+        .nav-btn.profile-btn:hover {
+            background: #218838;
+        }
+
+        .nav-btn.logout-btn {
+            background: #ed3d35;
+        }
+
+        .nav-btn.logout-btn:hover {
+            background: #c82333;
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 25px 20px 60px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: #07549a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-title h1 {
+            margin: 0 0 6px 0;
+            color: #07549a;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .student-pill {
+            background: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-pill span.highlight {
+            color: #07549a;
+            font-weight: 800;
+        }
+
+        /* Flash Message */
+        .alert {
+            padding: 14px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+        /* Quick Navigation Bar */
+        .sub-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .sub-tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sub-tab.active {
+            background: #07549a;
+            color: white;
+        }
+
+        .sub-tab.inactive {
+            background: white;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .sub-tab.inactive:hover {
+            background: #f8fafc;
+            color: #07549a;
+        }
+
+        /* Company Cards Grid */
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 22px;
+        }
+
+        .company-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .company-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .comp-info {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .comp-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #07549a, #1d4ed8);
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .comp-badge.tcs { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .comp-badge.infosys { background: linear-gradient(135deg, #0284c7, #0891b2); }
+        .comp-badge.microsoft { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .comp-badge.accenture { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+        .comp-badge.wipro { background: linear-gradient(135deg, #059669, #047857); }
+        .comp-badge.capgemini { background: linear-gradient(135deg, #ea580c, #c2410c); }
+
+        .comp-titles h3 {
+            margin: 0 0 4px 0;
+            font-size: 19px;
+            color: #0f172a;
+        }
+
+        .comp-titles .role {
+            margin: 0;
+            font-size: 14.5px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .ctc-badge {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 13.5px;
+            white-space: nowrap;
+        }
+
+        .comp-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+            padding: 12px 0;
+            border-top: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13.5px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .detail-item .lbl {
+            color: #94a3b8;
+            font-size: 11.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .detail-item .val {
+            color: #334155;
+            font-weight: 700;
+        }
+
+        .desc-text {
+            font-size: 13.5px;
+            color: #64748b;
+            line-height: 1.45;
+            margin: 0 0 15px 0;
+        }
+
+        .skills-wrap {
+            margin-bottom: 18px;
+        }
+
+        .skills-wrap .lbl {
+            font-size: 11.5px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .eligibility-status {
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .eligibility-status.eligible {
+            color: #16a34a;
+        }
+
+        .eligibility-status.ineligible {
+            color: #dc2626;
+        }
+
+        .btn-apply {
+            background: #07549a;
+            color: white;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-apply:hover {
+            background: #06457b;
+        }
+
+        .btn-applied {
+            background: #e2e8f0;
+            color: #64748b;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: not-allowed;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top">
+        <div class="logo-wrap">
+            <div class="logo">AMITY7ONE</div>
+            <div class="tagline">Campus Placement Portal</div>
+        </div>
+
+        <div class="top-nav">
+            <a href="/placement" class="nav-btn home-btn">🎓 Placement Hub</a>
+            <a href="/dashboard" class="nav-btn home-btn">🏠 Dashboard</a>
+            <a href="/profile" class="nav-btn profile-btn">Profile</a>
+            <a href="/logout" class="nav-btn logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main">
+        <div class="breadcrumb">
+            <a href="/dashboard">Home</a>
+            <span>›</span>
+            <a href="/placement">Student Placement Hub</a>
+            <span>›</span>
+            <span>Companies & Job Openings</span>
+        </div>
+
+        <div class="page-header">
+            <div class="page-title">
+                <h1>🏢 Campus Placement Drives</h1>
+                <p>Browse visiting companies, check eligibility, and submit placement applications</p>
+            </div>
+
+            <div class="student-pill">
+                <span>Your Academic CGPA:</span>
+                <span class="highlight">{{ student['cgpa'] }}</span>
+                <span>•</span>
+                <span>Applied Jobs: <strong style="color: #07549a;">{{ applied_company_ids|length }}</strong></span>
+            </div>
+        </div>
+
+        <!-- Quick Sub-Navigation -->
+        <div class="sub-bar">
+            <a href="/companies" class="sub-tab active">💼 All Openings ({{ companies|length }})</a>
+            <a href="/applications" class="sub-tab inactive">📋 My Applications ({{ applied_company_ids|length }})</a>
+            <a href="/predict-placement" class="sub-tab inactive">🤖 Placement Predictor</a>
+        </div>
+
+        {% if message %}
+            <div class="alert alert-success">
+                <span>{{ message }}</span>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-error">
+                <span>{{ error }}</span>
+            </div>
+        {% endif %}
+
+        <!-- Companies Grid -->
+        <div class="companies-grid">
+            {% for comp in companies %}
+                <div class="company-card">
+                    <div>
+                        <div class="card-top">
+                            <div class="comp-info">
+                                <div class="comp-badge {{ comp['name'].lower() }}">
+                                    {{ comp['name'][:2] }}
+                                </div>
+                                <div class="comp-titles">
+                                    <h3>{{ comp['name'] }}</h3>
+                                    <p class="role">{{ comp['role'] }}</p>
+                                </div>
+                            </div>
+                            <div class="ctc-badge">
+                                {{ comp['package'] }}
+                            </div>
+                        </div>
+
+                        <p class="desc-text">
+                            {{ comp['description'] }}
+                        </p>
+
+                        <div class="comp-details">
+                            <div class="detail-item">
+                                <span class="lbl">Min Eligibility</span>
+                                <span class="val">{{ comp['min_cgpa'] }} CGPA</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="lbl">Location</span>
+                                <span class="val">{{ comp['location'] }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="lbl">Openings</span>
+                                <span class="val">{{ comp['openings'] }} Positions</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="lbl">Deadline</span>
+                                <span class="val">{{ comp['deadline'] }}</span>
+                            </div>
+                        </div>
+
+                        <div class="skills-wrap">
+                            <span class="lbl">Required Skills</span>
+                            <div class="skill-tags">
+                                {% for s in comp['required_skills'].split(',') %}
+                                    <span class="skill-tag">{{ s.strip() }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div>
+                            {% if student['cgpa'] >= comp['min_cgpa'] %}
+                                <span class="eligibility-status eligible">
+                                    ✓ Eligible (CGPA: {{ student['cgpa'] }})
+                                </span>
+                            {% else %}
+                                <span class="eligibility-status ineligible">
+                                    ⚠️ Below Criteria (Min {{ comp['min_cgpa'] }})
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            {% if comp['id'] in applied_company_ids %}
+                                <span class="btn-applied">
+                                    ✓ Applied
+                                </span>
+                            {% else %}
+                                <form method="POST" action="/apply-company/{{ comp['id'] }}" style="margin: 0;">
+                                    <button type="submit" class="btn-apply">
+                                        Apply Now →
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

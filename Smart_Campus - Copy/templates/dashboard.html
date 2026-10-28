@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - AMITY7ONE</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f4f7;
+            color: #333;
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .top {
+            height: 78px;
+            background: #07549a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .campus {
+            font-size: 20px;
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .profile-btn {
+            background: #28a745;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logout {
+            background: #ed3d35;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .profile-btn:hover {
+            background: #218838;
+        }
+
+        .logout:hover {
+            background: #c82333;
+        }
+
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 78px;
+            bottom: 0;
+
+            width: 220px;
+
+            background: white;
+
+            border-right: 1px solid #ddd;
+
+            overflow-y: auto;
+        }
+
+        .menu {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .menu li {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .menu a {
+            display: block;
+
+            padding: 16px 18px;
+
+            color: #333;
+
+            text-decoration: none;
+
+            font-size: 16px;
+        }
+
+        .menu a:hover {
+            background: #eaf3fb;
+            color: #07549a;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 220px;
+            padding: 30px;
+        }
+
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 28px;
+        }
+
+        .card {
+            min-height: 165px;
+
+            padding: 25px;
+
+            border-radius: 7px;
+
+            color: white;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .card h2 {
+            margin: 0 0 20px 0;
+
+            font-size: 25px;
+        }
+
+        .card .number {
+            font-size: 32px;
+
+            font-weight: bold;
+        }
+
+        .attendance-card {
+            background: #40d1bd;
+
+            cursor: pointer;
+        }
+
+        .fee-card {
+            background: #ff5b78;
+        }
+
+        .project-card {
+            background: #287dcc;
+        }
+
+        .cgpa-card {
+            background: #ffc45a;
+        }
+
+        .click-text {
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+
+        /* ================= TWO COLUMNS ================= */
+
+        .content {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 25px;
+        }
+
+        .box {
+            background: white;
+
+            border: 1px solid #ddd;
+
+            border-radius: 5px;
+
+            overflow: hidden;
+        }
+
+        .box-title {
+            padding: 20px;
+
+            border-bottom: 1px solid #ddd;
+
+            color: #07549a;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= CLASSES (DYNAMIC TIMETABLE) ================= */
+
+        .classes-box-header {
+            padding: 18px 22px 14px 22px;
+            border-bottom: 1px solid #eef2f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: #ffffff;
+        }
+
+        .classes-title-text {
+            color: #07549a;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .today-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e8f4fd;
+            color: #07549a;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 14px;
+            border: 1px solid #bee3f8;
+        }
+
+        .pulse-indicator {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            animation: pulse-ring 1.8s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(40, 167, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
+
+        .classes-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .view-timetable-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: #008fc4;
+            text-decoration: none;
+            padding: 7px 14px;
+            border: 1px solid #bce1f5;
+            border-radius: 6px;
+            background: #f0f8fd;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-timetable-link:hover {
+            background: #008fc4;
+            color: white;
+            border-color: #008fc4;
+        }
+
+        /* Day Selector Tabs Bar */
+        .day-tabs-bar {
+            display: flex;
+            gap: 4px;
+            padding: 10px 18px 0 18px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .day-tab-btn {
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 9px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .day-tab-btn:hover {
+            color: #07549a;
+            background: #eef4fb;
+        }
+
+        .day-tab-btn.active {
+            background: #ffffff;
+            color: #07549a;
+            border: 1px solid #e2e8f0;
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: -1px;
+            font-weight: bold;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.03);
+        }
+
+        .tab-today-badge {
+            background: #28a745;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 1px 6px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Class Items & Panes */
+        .class-panes-wrapper {
+            min-height: 240px;
+        }
+
+        .day-pane {
+            display: none;
+            animation: paneFadeIn 0.25s ease-in-out;
+        }
+
+        .day-pane.active {
+            display: block;
+        }
+
+        @keyframes paneFadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .class-item {
+            padding: 18px 22px;
+            border-bottom: 1px solid #edf2f7;
+            transition: background 0.15s ease;
+        }
+
+        .class-item:hover {
+            background: #fafcfe;
+        }
+
+        .class-item:last-child {
+            border-bottom: none;
+        }
+
+        .class-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .time {
+            color: #008fc4;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .class-meta-badges {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .status-badge.live {
+            background: #def7ec;
+            color: #03543f;
+            border: 1px solid #bcf0da;
+        }
+
+        .status-badge.upcoming {
+            background: #e1effe;
+            color: #1e429f;
+            border: 1px solid #b3d7ff;
+        }
+
+        .status-badge.completed {
+            background: #f3f4f6;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
+        }
+
+        .type-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .type-tag.lab {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .type-tag.lecture {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .type-tag.elective {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .type-tag.value-added, .type-tag.language {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .subject {
+            color: #a0009b;
+            font-size: 18px;
+            margin-bottom: 7px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .teacher {
+            color: #a0009b;
+            font-size: 15px;
+        }
+
+        .room {
+            color: #a0009b;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .room-label {
+            display: inline-block;
+            background: #fdf2f8;
+            color: #9d174d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid #fbcfe8;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #4ddf88;
+            border-radius: 50%;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .pulse-dot {
+            box-shadow: 0 0 0 0 rgba(77, 223, 136, 0.7);
+            animation: pulse-ring 1.8s infinite;
+        }
+
+        /* Empty state for weekends/no classes */
+        .empty-day-state {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .empty-desc {
+            font-size: 14px;
+            color: #64748b;
+            max-width: 360px;
+            margin: 0 auto 16px;
+            line-height: 1.5;
+        }
+
+        .empty-btn {
+            background: #07549a;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .empty-btn:hover {
+            background: #064075;
+        }
+
+
+        /* ================= ATTENDANCE ================= */
+
+        .attendance-box {
+            padding: 30px;
+
+            text-align: center;
+
+            cursor: pointer;
+        }
+
+        .circle {
+            width: 195px;
+            height: 195px;
+
+            margin: 10px auto 25px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    #0ca83b 0deg 306deg,
+                    #ddd 306deg 360deg
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .circle-inner {
+            width: 145px;
+            height: 145px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #07549a;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+        .attendance-title {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+        }
+
+        .legend {
+            margin: 8px;
+
+            font-size: 16px;
+        }
+
+        .green {
+            display: inline-block;
+
+            width: 15px;
+            height: 15px;
+
+            background: #0ca83b;
+
+            border-radius: 50%;
+
+            margin-right: 7px;
+        }
+
+        .yellow {
+            display: inline-block;
+
+            width: 15px;
+            height: 15px;
+
+            background: #ffb52e;
+
+            border-radius: 50%;
+
+            margin-right: 7px;
+        }
+
+        .hint {
+            margin-top: 25px;
+
+            color: #777;
+
+            font-size: 15px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .campus {
+                display: none;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="top">
+
+    <div class="logo">
+        AMITY7ONE
+    </div>
+
+    <div class="campus">
+        Smart Campus
+    </div>
+
+    <div class="top-buttons">
+
+        <!-- PROFILE BUTTON -->
+
+        <a href="/profile" class="profile-btn">
+            Profile
+        </a>
+
+        <a href="/admin/login" style="background: #0d3b66; color: white; padding: 11px 18px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 14px;">
+            🔒 Admin Portal
+        </a>
+
+        <!-- LOGOUT BUTTON -->
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar">
+
+    <ul class="menu">
+
+        <li>
+            <a href="/dashboard">
+                🏠 Home
+            </a>
+        </li>
+
+        <li>
+            <a href="/calendar">
+                📅 My Calendar
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📝 SAP
+            </a>
+        </li>
+
+        <li>
+            <a href="/courses">
+                📚 My Courses
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📋 Registration
+            </a>
+        </li>
+
+        <li>
+            <a href="/timetable">
+                🕐 Time Table
+            </a>
+        </li>
+
+        <li>
+            <a href="/faculty">
+                 👥 My Faculty
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📝 Examination
+            </a>
+        </li>
+
+        <li>
+           <a href="/placement">
+                🎓 Student Placement Hub
+            </a>
+        </li>
+        <li>
+           <a href="/predict-placement">
+                ⚡ Placement Prediction (ML)
+            </a>
+        </li>
+        <li>
+            <a href="/resume-analyzer">
+                 🤖 AI Resume Analyzer
+             </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📄 Student Document
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                💰 Fee Details
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📑 IAD
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                💬 Student Support Hub
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                🌐 The Global Times
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                🏆 Scholarship
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📶 Register for Wifi
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                🪪 ABC ID
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📚 Research Repository
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                🏨 Hostel
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📑 ASAP
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="main">
+
+
+    <!-- TOP CARDS -->
+
+    <div class="cards">
+
+
+        <!-- ATTENDANCE -->
+
+        <div class="card attendance-card"
+             onclick="window.location.href='/attendance'">
+
+            <h2>
+                Attendance
+            </h2>
+
+            <div class="number">
+                {{ student["attendance"] }}%
+            </div>
+
+            <div class="click-text">
+                Click to view details
+            </div>
+
+        </div>
+
+
+        <!-- FEES -->
+
+        <div class="card fee-card">
+
+            <h2>
+                Fees
+            </h2>
+
+            <div class="number">
+                ₹200000.0
+            </div>
+
+        </div>
+
+
+        <!-- PROJECTS -->
+
+        <div class="card project-card">
+
+            <h2>
+                Projects
+            </h2>
+
+            <div class="number">
+                1
+            </div>
+
+        </div>
+
+
+        <!-- CGPA -->
+
+        <div class="card cgpa-card">
+
+            <h2>
+                CGPA
+            </h2>
+
+            <div class="number">
+                {{ student["cgpa"] }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <div class="content">
+
+
+        <!-- MY CLASSES (DYNAMIC DAILY TIMETABLE) -->
+        <div class="box" id="classesBox">
+
+            <div class="classes-box-header">
+                <div>
+                    <div class="classes-title-text">
+                        <span>My Classes</span>
+                        <span class="today-pill" id="todayPill">
+                            <span class="pulse-indicator"></span>
+                            <span id="headerDayLabel">{{ today_formatted }}</span>
+                        </span>
+                    </div>
+                    <div class="classes-subtitle" id="classesSubtitle">
+                        {% if is_weekend %}
+                        Weekend • Showing Monday's preview (Select any day below)
+                        {% else %}
+                        Today's Schedule ({{ today_day }}) • {{ today_classes|length }} Lectures/Labs
+                        {% endif %}
+                    </div>
+                </div>
+                <a href="/timetable" class="view-timetable-link" title="Open complete weekly time table">
+                    Full Time Table ↗
+                </a>
+            </div>
+
+            <!-- DAY SELECTOR TABS -->
+            <div class="day-tabs-bar" role="tablist">
+                {% set tab_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Weekend"] %}
+                {% for d in tab_days %}
+                <button type="button" 
+                        class="day-tab-btn {% if d == default_active_day %}active{% endif %}" 
+                        data-day="{{ d }}"
+                        onclick="switchClassDay('{{ d }}')">
+                    {{ d[:3] if d != 'Weekend' else 'Weekend' }}
+                    {% if d == today_day or (d == 'Weekend' and is_weekend) %}
+                    <span class="tab-today-badge">Today</span>
+                    {% endif %}
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- CLASS PANES FOR EACH DAY -->
+            <div class="class-panes-wrapper">
+                {% for d in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
+                {% set day_classes = weekly_timetable.get(d, []) %}
+                <div class="day-pane {% if d == default_active_day %}active{% endif %}" id="pane-{{ d }}">
+                    {% if day_classes and day_classes|length > 0 %}
+                        {% for cls in day_classes %}
+                        <div class="class-item" data-start="{{ cls.start }}" data-end="{{ cls.end }}" data-day="{{ d }}">
+                            <div class="class-header-row">
+                                <div class="time">
+                                    {{ cls.time }}
+                                </div>
+                                <div class="class-meta-badges">
+                                    {% if d == today_day %}
+                                        {% if cls.status == 'ongoing' %}
+                                        <span class="status-badge live">● Live Now</span>
+                                        {% elif cls.status == 'completed' %}
+                                        <span class="status-badge completed">✓ Done</span>
+                                        {% else %}
+                                        <span class="status-badge upcoming">Upcoming</span>
+                                        {% endif %}
+                                    {% endif %}
+                                    <span class="type-tag {{ cls.type|lower|replace(' ', '-') }}">{{ cls.type }}</span>
+                                </div>
+                            </div>
+
+                            <div class="subject">
+                                <span class="dot {% if d == today_day and cls.status == 'ongoing' %}pulse-dot{% endif %}"></span>
+                                {{ cls.subject }}
+                            </div>
+
+                            <div class="teacher">
+                                {{ cls.teacher }}
+                            </div>
+
+                            <div class="room">
+                                <span class="room-label">{{ cls.room }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-day-state">
+                            <div class="empty-icon">🏖️</div>
+                            <div class="empty-title">No Classes Scheduled</div>
+                            <div class="empty-desc">No lectures or labs are scheduled for {{ d }}.</div>
+                            <button type="button" class="empty-btn" onclick="switchClassDay('Monday')">View Monday's Classes</button>
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <!-- WEEKEND PANE -->
+                <div class="day-pane {% if default_active_day == 'Weekend' or (is_weekend and default_active_day not in ['Monday','Tuesday','Wednesday','Thursday','Friday']) %}active{% endif %}" id="pane-Weekend">
+                    <div class="empty-day-state">
+                        <div class="empty-icon">🎉</div>
+                        <div class="empty-title">Weekend - No Classes Today!</div>
+                        <div class="empty-desc">
+                            Classes are held Monday through Friday. Use this time to recharge, work on your projects, or preview the upcoming week's timetable.
+                        </div>
+                        <button type="button" class="empty-btn" onclick="switchClassDay('Monday')">Preview Monday's Classes</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- MY ATTENDANCE -->
+
+        <div class="box">
+
+            <div class="box-title">
+                My Attendance
+            </div>
+
+
+            <div class="attendance-box"
+                 onclick="window.location.href='/attendance'">
+
+
+                <div class="circle">
+
+                    <div class="circle-inner">
+                        {{ student["attendance"] }}%
+                    </div>
+
+                </div>
+
+
+                <div class="attendance-title">
+                    Overall Attendance
+                </div>
+
+
+                <div class="legend">
+                    <span class="green"></span>
+                    Above 85%
+                </div>
+
+
+                <div class="legend">
+                    <span class="yellow"></span>
+                    75% to 85%
+                </div>
+
+
+                <div class="hint">
+                    👆 Click the circle to see subject-wise attendance
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- TIMETABLE INTERACTIVITY & LIVE STATUS UPDATER -->
+<script>
+    function switchClassDay(dayName) {
+        // Switch active tab button
+        var buttons = document.querySelectorAll('.day-tab-btn');
+        buttons.forEach(function(btn) {
+            if (btn.getAttribute('data-day') === dayName) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Switch active pane
+        var panes = document.querySelectorAll('.day-pane');
+        panes.forEach(function(pane) {
+            pane.classList.remove('active');
+        });
+        var targetPane = document.getElementById('pane-' + dayName);
+        if (targetPane) {
+            targetPane.classList.add('active');
+        }
+
+        // Update subtitle
+        var subtitle = document.getElementById('classesSubtitle');
+        var todayDay = '{{ today_day }}';
+        if (subtitle) {
+            if (dayName === todayDay) {
+                subtitle.textContent = "Today's Schedule (" + todayDay + ") • Live Updates Active";
+            } else if (dayName === 'Weekend') {
+                subtitle.textContent = "Weekend • No Regular Classes Scheduled";
+            } else {
+                subtitle.textContent = dayName + "'s Time Table Schedule";
+            }
+        }
+    }
+
+    // Dynamic real-time status updater for today's classes
+    function updateLiveClassStatuses() {
+        var todayDay = '{{ today_day }}';
+        var todayPane = document.getElementById('pane-' + todayDay);
+        if (!todayPane) return;
+
+        var now = new Date();
+        var hours = String(now.getHours()).padStart(2, '0');
+        var mins = String(now.getMinutes()).padStart(2, '0');
+        var currentTime = hours + ':' + mins;
+
+        var classItems = todayPane.querySelectorAll('.class-item');
+        classItems.forEach(function(item) {
+            var start = item.getAttribute('data-start');
+            var end = item.getAttribute('data-end');
+            if (!start || !end) return;
+
+            var badgesContainer = item.querySelector('.class-meta-badges');
+            var dot = item.querySelector('.dot');
+            if (!badgesContainer) return;
+
+            // Remove existing status badge if any
+            var existingStatus = badgesContainer.querySelector('.status-badge');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+
+            var newBadge = document.createElement('span');
+            if (currentTime >= start && currentTime <= end) {
+                newBadge.className = 'status-badge live';
+                newBadge.innerHTML = '● Live Now';
+                if (dot) dot.classList.add('pulse-dot');
+            } else if (currentTime > end) {
+                newBadge.className = 'status-badge completed';
+                newBadge.innerHTML = '✓ Done';
+                if (dot) dot.classList.remove('pulse-dot');
+            } else {
+                newBadge.className = 'status-badge upcoming';
+                newBadge.innerHTML = 'Upcoming';
+                if (dot) dot.classList.remove('pulse-dot');
+            }
+
+            badgesContainer.insertBefore(newBadge, badgesContainer.firstChild);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateLiveClassStatuses();
+        setInterval(updateLiveClassStatuses, 30000);
+    });
+</script>
+
+</body>
+
+</html>

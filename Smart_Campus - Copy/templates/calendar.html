@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Calendar - AMITY7ONE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f4f7;
+        }
+
+        /* TOP BAR */
+        .top {
+            height: 70px;
+            background: #07549a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .back {
+            background: #28a745;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        /* MAIN */
+        .container {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .title {
+            color: #07549a;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        /* CALENDAR BOX */
+        .calendar {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+
+        /* CALENDAR HEADER */
+        .calendar-header {
+            background: #07549a;
+            color: white;
+
+            padding: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .calendar-header h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .calendar-header button {
+            border: none;
+            background: white;
+            color: #07549a;
+
+            padding: 10px 18px;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .calendar-header button:hover {
+            background: #e8eef4;
+        }
+
+        /* WEEKDAYS */
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+
+            background: #e8eef4;
+
+            text-align: center;
+
+            font-weight: bold;
+            color: #07549a;
+        }
+
+        .weekdays div {
+            padding: 15px;
+        }
+
+        /* DAYS */
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .day {
+            min-height: 110px;
+
+            border: 1px solid #e1e1e1;
+
+            padding: 10px;
+
+            background: white;
+        }
+
+        .day-number {
+            font-size: 17px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        /* TODAY */
+        .today {
+            background: #eaf5ff;
+            border: 2px solid #07549a;
+        }
+
+        .today .day-number {
+            color: #07549a;
+        }
+
+        /* EVENT */
+        .event {
+            margin-top: 10px;
+
+            padding: 5px;
+
+            background: #40d1bd;
+            color: white;
+
+            border-radius: 4px;
+
+            font-size: 12px;
+        }
+
+        .exam {
+            background: #ed3d35;
+        }
+
+        .holiday {
+            background: #f0ad4e;
+        }
+
+        /* EVENTS */
+        .events {
+            margin-top: 30px;
+
+            background: white;
+
+            border-radius: 8px;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+
+            padding: 25px;
+        }
+
+        .events h2 {
+            margin-top: 0;
+            color: #07549a;
+        }
+
+        .event-row {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .event-row:last-child {
+            border-bottom: none;
+        }
+
+        .date {
+            color: #07549a;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+        @media(max-width: 700px) {
+
+            .container {
+                width: 96%;
+            }
+
+            .day {
+                min-height: 70px;
+                padding: 5px;
+            }
+
+            .event {
+                display: none;
+            }
+
+            .weekdays div {
+                padding: 8px 2px;
+                font-size: 12px;
+            }
+
+            .calendar-header h2 {
+                font-size: 18px;
+            }
+
+            .calendar-header button {
+                padding: 7px 12px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="top">
+
+    <div class="logo">
+        AMITY7ONE
+    </div>
+
+    <div>
+        Smart Campus
+    </div>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+    <div class="title">
+        📅 My Calendar
+    </div>
+
+
+    <div class="calendar">
+
+        <!-- CALENDAR HEADER -->
+
+        <div class="calendar-header">
+
+            <button onclick="previousMonth()">
+                ◀
+            </button>
+
+            <h2 id="monthYear"></h2>
+
+            <button onclick="nextMonth()">
+                ▶
+            </button>
+
+        </div>
+
+
+        <!-- WEEK DAYS -->
+
+        <div class="weekdays">
+
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+
+        </div>
+
+
+        <!-- DAYS WILL COME HERE -->
+
+        <div class="days" id="calendarDays"></div>
+
+    </div>
+
+
+    <!-- UPCOMING EVENTS -->
+
+    <div class="events">
+
+        <h2>
+            Upcoming Events
+        </h2>
+
+        <div class="event-row">
+
+            <div class="date">
+                10 September 2026
+            </div>
+
+            Assignment Submission
+
+        </div>
+
+
+        <div class="event-row">
+
+            <div class="date">
+                15 September 2026
+            </div>
+
+            Internal Examination
+
+        </div>
+
+
+        <div class="event-row">
+
+            <div class="date">
+                24 September 2026
+            </div>
+
+            Project Submission
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* CURRENT DATE */
+
+    let currentDate = new Date();
+
+    let currentMonth = currentDate.getMonth();
+
+    let currentYear = currentDate.getFullYear();
+
+
+    /* EVENTS */
+
+    const events = {
+
+        "2026-9-10": {
+            text: "Assignment",
+            className: "event"
+        },
+
+        "2026-9-15": {
+            text: "Exam",
+            className: "event exam"
+        },
+
+        "2026-9-24": {
+            text: "Assignment",
+            className: "event"
+        }
+
+    };
+
+
+    /* CREATE CALENDAR */
+
+    function createCalendar() {
+
+        const monthYear = document.getElementById("monthYear");
+
+        const calendarDays = document.getElementById("calendarDays");
+
+
+        /* MONTH NAME */
+
+        const monthName = new Date(
+            currentYear,
+            currentMonth
+        ).toLocaleString("default", {
+            month: "long"
+        });
+
+
+        monthYear.innerText =
+            monthName + " " + currentYear;
+
+
+        calendarDays.innerHTML = "";
+
+
+        /* FIRST DAY OF MONTH */
+
+        const firstDay = new Date(
+            currentYear,
+            currentMonth,
+            1
+        ).getDay();
+
+
+        /* NUMBER OF DAYS */
+
+        const numberOfDays = new Date(
+            currentYear,
+            currentMonth + 1,
+            0
+        ).getDate();
+
+
+        /* EMPTY BOXES */
+
+        for (let i = 0; i < firstDay; i++) {
+
+            const emptyDay =
+                document.createElement("div");
+
+            emptyDay.className = "day";
+
+            calendarDays.appendChild(emptyDay);
+
+        }
+
+
+        /* DAYS */
+
+        for (let day = 1; day <= numberOfDays; day++) {
+
+            const dayBox =
+                document.createElement("div");
+
+            dayBox.className = "day";
+
+
+            /* DAY NUMBER */
+
+            const dayNumber =
+                document.createElement("div");
+
+            dayNumber.className = "day-number";
+
+            dayNumber.innerText = day;
+
+            dayBox.appendChild(dayNumber);
+
+
+            /* TODAY */
+
+            const today = new Date();
+
+            if (
+                day === today.getDate() &&
+                currentMonth === today.getMonth() &&
+                currentYear === today.getFullYear()
+            ) {
+
+                dayBox.classList.add("today");
+
+            }
+
+
+            /* EVENT */
+
+            const eventKey =
+                currentYear +
+                "-" +
+                (currentMonth + 1) +
+                "-" +
+                day;
+
+
+            if (events[eventKey]) {
+
+                const event =
+                    document.createElement("div");
+
+                event.className =
+                    events[eventKey].className;
+
+                event.innerText =
+                    events[eventKey].text;
+
+                dayBox.appendChild(event);
+
+            }
+
+
+            calendarDays.appendChild(dayBox);
+
+        }
+
+    }
+
+
+    /* PREVIOUS MONTH */
+
+    function previousMonth() {
+
+        currentMonth--;
+
+        if (currentMonth < 0) {
+
+            currentMonth = 11;
+
+            currentYear--;
+
+        }
+
+        createCalendar();
+
+    }
+
+
+    /* NEXT MONTH */
+
+    function nextMonth() {
+
+        currentMonth++;
+
+        if (currentMonth > 11) {
+
+            currentMonth = 0;
+
+            currentYear++;
+
+        }
+
+        createCalendar();
+
+    }
+
+
+    /* LOAD CALENDAR */
+
+    createCalendar();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Evaluation & Dataset - AMITY7ONE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f4f8;
+            color: #2c3e50;
+        }
+
+        /* Top Bar */
+        .top {
+            height: 75px;
+            background: linear-gradient(135deg, #07549a, #0b69be);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(7, 84, 154, 0.2);
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.home-btn {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-btn.home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.profile-btn {
+            background: #28a745;
+        }
+
+        .nav-btn.profile-btn:hover {
+            background: #218838;
+        }
+
+        .nav-btn.logout-btn {
+            background: #ed3d35;
+        }
+
+        .nav-btn.logout-btn:hover {
+            background: #c82333;
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 25px 20px 60px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: #07549a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-title h1 {
+            margin: 0 0 6px 0;
+            color: #07549a;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .model-tag {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 13.5px;
+        }
+
+        /* 4 Key Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stat-card .lbl {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-card .num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #07549a;
+        }
+
+        .stat-card .sub {
+            font-size: 12.5px;
+            color: #94a3b8;
+        }
+
+        /* Two column layout for charts */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card h2 {
+            margin: 0 0 18px 0;
+            font-size: 19px;
+            color: #07549a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Confusion Matrix Grid */
+        .cm-table-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .cm-table {
+            border-collapse: collapse;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .cm-table th, .cm-table td {
+            padding: 14px 20px;
+            border: 1.5px solid #cbd5e1;
+            font-size: 14px;
+        }
+
+        .cm-table th {
+            background: #f8fafc;
+            color: #334155;
+            font-weight: 700;
+        }
+
+        .cm-cell {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .cm-cell.tn {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .cm-cell.tp {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .cm-cell.fp {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .cm-cell.fn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .cm-legend {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 12.5px;
+            color: #64748b;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Classification Report Table */
+        .cr-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .cr-table th, .cr-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cr-table th {
+            color: #64748b;
+            font-weight: 600;
+            background: #f8fafc;
+        }
+
+        .cr-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .cr-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 12.5px;
+        }
+
+        .cr-badge.placed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .cr-badge.not-placed {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Feature Importance Bars */
+        .feat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .feat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .feat-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .feat-bar-bg {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .feat-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #07549a, #38bdf8);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Dataset Explorer Card */
+        .dataset-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-input {
+            padding: 10px 16px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 320px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #07549a;
+            box-shadow: 0 0 0 3px rgba(7, 84, 154, 0.12);
+        }
+
+        .table-scroll {
+            max-height: 480px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        .data-table th {
+            position: sticky;
+            top: 0;
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 700;
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        .data-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            white-space: nowrap;
+        }
+
+        .data-table tr:hover td {
+            background: #f1f5f9;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .status-pill.placed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-pill.not-placed {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        @media(max-width: 1050px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top">
+        <div class="logo-wrap">
+            <div class="logo">AMITY7ONE</div>
+            <div class="tagline">ML Evaluation & Analytics</div>
+        </div>
+
+        <div class="top-nav">
+            <a href="/placement" class="nav-btn home-btn">🎓 Placement Hub</a>
+            <a href="/predict-placement" class="nav-btn home-btn">🤖 Predictor</a>
+            <a href="/dashboard" class="nav-btn home-btn">🏠 Dashboard</a>
+            <a href="/logout" class="nav-btn logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main">
+        <div class="breadcrumb">
+            <a href="/dashboard">Home</a>
+            <span>›</span>
+            <a href="/placement">Student Placement Hub</a>
+            <span>›</span>
+            <span>Machine Learning Model Evaluation</span>
+        </div>
+
+        <div class="page-header">
+            <div class="page-title">
+                <h1>📊 Random Forest Model Evaluation</h1>
+                <p>Performance metrics, confusion matrix, classification report & 500-student dataset viewer</p>
+            </div>
+            <div class="model-tag">
+                Scikit-Learn • Pandas • NumPy • 80/20 Train-Test Split
+            </div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="lbl">Testing Accuracy</span>
+                <span class="num">{{ metrics.test_accuracy }}%</span>
+                <span class="sub">Evaluated on 100 test samples</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="lbl">Training Accuracy</span>
+                <span class="num">{{ metrics.train_accuracy }}%</span>
+                <span class="sub">Trained on {{ metrics.train_records or 12000 }} student records</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="lbl">Total Dataset</span>
+                <span class="num">{{ metrics.total_records }}</span>
+                <span class="sub">Indian Engineering Placement Dataset 2026</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="lbl">Classifier Architecture</span>
+                <span class="num" style="font-size: 24px; margin: 4px 0;">Random Forest</span>
+                <span class="sub">{{ metrics.n_estimators }} Decision Trees (max_depth: {{ metrics.max_depth or 12 }})</span>
+            </div>
+        </div>
+
+        <!-- 2 Column Charts Row -->
+        <div class="charts-row">
+
+            <!-- Confusion Matrix -->
+            <div class="card">
+                <h2>🧮 Confusion Matrix (Test Split)</h2>
+                <div class="cm-table-wrap">
+                    <p style="font-size: 13.5px; color: #64748b; margin: 0 0 10px 0;">
+                        Visualizing correct predictions vs misclassifications on {{ metrics.test_records or 3000 }} test students
+                    </p>
+
+                    <table class="cm-table">
+                        <tr>
+                            <th rowspan="2" style="background: white; border: none;"></th>
+                            <th colspan="2">Predicted Class</th>
+                        </tr>
+                        <tr>
+                            <th>Not Placed (0)</th>
+                            <th>Placed (1)</th>
+                        </tr>
+                        <tr>
+                            <th>Actual: Not Placed</th>
+                            <td class="cm-cell tn">{{ metrics.confusion_matrix[0][0] }}<br><small style="font-size: 11px;">True Negative</small></td>
+                            <td class="cm-cell fp">{{ metrics.confusion_matrix[0][1] }}<br><small style="font-size: 11px;">False Positive</small></td>
+                        </tr>
+                        <tr>
+                            <th>Actual: Placed</th>
+                            <td class="cm-cell fn">{{ metrics.confusion_matrix[1][0] }}<br><small style="font-size: 11px;">False Negative</small></td>
+                            <td class="cm-cell tp">{{ metrics.confusion_matrix[1][1] }}<br><small style="font-size: 11px;">True Positive</small></td>
+                        </tr>
+                    </table>
+
+                    <div class="cm-legend">
+                        <div class="legend-item"><div class="legend-dot" style="background: #dcfce7;"></div> <span>True Negatives ({{ metrics.confusion_matrix[0][0] }})</span></div>
+                        <div class="legend-item"><div class="legend-dot" style="background: #dbeafe;"></div> <span>True Positives ({{ metrics.confusion_matrix[1][1] }})</span></div>
+                        <div class="legend-item"><div class="legend-dot" style="background: #fef3c7;"></div> <span>False Positives ({{ metrics.confusion_matrix[0][1] }})</span></div>
+                        <div class="legend-item"><div class="legend-dot" style="background: #fee2e2;"></div> <span>False Negatives ({{ metrics.confusion_matrix[1][0] }})</span></div>
+                    </div>
+                </div>
+
+                <!-- Classification Report Summary -->
+                <h2 style="margin-top: 25px;">📑 Classification Report</h2>
+                <table class="cr-table">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                            <th>Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="cr-badge not-placed">Not Placed</span></td>
+                            <td>{{ metrics.classification_report['Not Placed']['precision'] }}%</td>
+                            <td>{{ metrics.classification_report['Not Placed']['recall'] }}%</td>
+                            <td>{{ metrics.classification_report['Not Placed']['f1_score'] }}%</td>
+                            <td>{{ metrics.classification_report['Not Placed']['support'] }}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="cr-badge placed">Placed</span></td>
+                            <td>{{ metrics.classification_report['Placed']['precision'] }}%</td>
+                            <td>{{ metrics.classification_report['Placed']['recall'] }}%</td>
+                            <td>{{ metrics.classification_report['Placed']['f1_score'] }}%</td>
+                            <td>{{ metrics.classification_report['Placed']['support'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Feature Importance -->
+            <div class="card">
+                <h2>🌲 Feature Importance (Gini Importance)</h2>
+                <p style="font-size: 13.5px; color: #64748b; margin: 0 0 16px 0;">
+                    Contribution of each student feature in driving placement prediction decisions
+                </p>
+
+                <div class="feat-list">
+                    {% for feat, imp in metrics.feature_importances.items() %}
+                        <div class="feat-item">
+                            <div class="feat-meta">
+                                <span>{{ feat }}</span>
+                                <span style="color: #07549a;">{{ (imp * 100)|round(2) }}%</span>
+                            </div>
+                            <div class="feat-bar-bg">
+                                <div class="feat-bar-fill" style="width: {{ [(imp * 100 * 2.5)|round(1), 100]|min }}%;"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div style="margin-top: 25px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13.5px; line-height: 1.5; color: #475569;">
+                    💡 <strong>Observation:</strong> <strong>DSA Problems Solved</strong> and <strong>CGPA</strong> account for over 50% of the total predictive power, reflecting real-world campus recruitment standards.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 15000 Records Dataset Explorer -->
+        <div class="card">
+            <div class="dataset-header">
+                <div>
+                    <h2 style="border: none; padding: 0; margin: 0 0 4px 0;">📋 Indian Engineering Placement Dataset (2026) Explorer</h2>
+                    <span style="font-size: 13.5px; color: #64748b;">15,000 engineering student records by Vishwajeet Chandole (Kaggle & GitHub)</span>
+                </div>
+                <input type="text" id="datasetSearch" class="search-input" placeholder="🔍 Search by ID, Branch, Tier, State, Status..." onkeyup="filterTable()">
+            </div>
+
+            <div class="table-scroll">
+                <table class="data-table" id="studentTable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Branch</th>
+                            <th>Tier</th>
+                            <th>State</th>
+                            <th>CGPA</th>
+                            <th>Attendance</th>
+                            <th>DSA Solved</th>
+                            <th>Aptitude</th>
+                            <th>Projects</th>
+                            <th>Internships</th>
+                            <th>Package</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in sample_students %}
+                            <tr>
+                                <td><strong>#{{ row.get('Student_ID') or row.get('Student ID') }}</strong></td>
+                                <td>{{ row.get('Branch') or row.get('Course') }}</td>
+                                <td><span style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px;">{{ row.get('College_Tier') or 'Tier-2' }}</span></td>
+                                <td>{{ row.get('State') or 'India' }}</td>
+                                <td><strong>{{ row.get('CGPA') }}</strong></td>
+                                <td>{{ row.get('Attendance_Percentage') or row.get('Attendance') }}%</td>
+                                <td>{{ row.get('DSA_Problems_Solved') or row.get('Coding Score') }}</td>
+                                <td>{{ row.get('Aptitude_Score') or row.get('Aptitude Score') }}</td>
+                                <td>{{ row.get('Projects_Count') or row.get('Projects') }}</td>
+                                <td>{{ row.get('Internships_Count') or row.get('Internships') }}</td>
+                                <td>
+                                    {% if row.get('Package_LPA') and row.get('Package_LPA')|float > 0 %}
+                                        <strong style="color: #059669;">{{ row.get('Package_LPA') }} LPA</strong>
+                                    {% else %}
+                                        <span style="color: #94a3b8;">—</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="status-pill {% if (row.get('Placement_Status') or row.get('Placement Status')) == 'Placed' %}placed{% else %}not-placed{% endif %}">
+                                        {{ row.get('Placement_Status') or row.get('Placement Status') }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function filterTable() {
+            var input = document.getElementById("datasetSearch");
+            var filter = input.value.toLowerCase();
+            var table = document.getElementById("studentTable");
+            var trs = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < trs.length; i++) {
+                var rowText = trs[i].innerText.toLowerCase();
+                if (rowText.indexOf(filter) > -1) {
+                    trs[i].style.display = "";
+                } else {
+                    trs[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

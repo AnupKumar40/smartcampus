@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Placement Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f4f7;
+            color: #333;
+        }
+
+        .top {
+            height: 78px;
+            background: #07549a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .profile,
+        .logout {
+            color: white;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .profile {
+            background: #28a745;
+        }
+
+        .logout {
+            background: #ed3d35;
+        }
+
+        .main {
+            margin-left: 220px;
+            padding: 30px;
+        }
+
+        .breadcrumb {
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #07549a;
+            margin-bottom: 25px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 7px;
+            border: 1px solid #ddd;
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            color: #07549a;
+            margin-top: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            min-height: 190px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #07549a;
+            margin: 0 0 12px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            background: #07549a;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #06457b;
+        }
+
+
+        .footer {
+            text-align: center;
+            color: #777;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        @media(max-width: 1000px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 700px) {
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .title {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="top">
+
+        <div class="logo">
+            AMITY7ONE
+        </div>
+
+        <div class="title">
+            Student Placement Hub
+        </div>
+
+        <div class="buttons">
+
+            <a href="/dashboard" class="profile" style="background: #0b69be;">
+                🏠 Dashboard
+            </a>
+
+            <a href="/profile" class="profile">
+                Profile
+            </a>
+
+            <a href="/logout" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="breadcrumb">
+            <a href="/dashboard" style="color: #07549a; text-decoration: none;">🏠 Home</a> &nbsp;›&nbsp; Student Placement Hub
+        </div>
+
+        <h1>
+            Student Placement Hub
+        </h1>
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h2>
+                Welcome to Placement Portal
+            </h2>
+
+            <p>
+                Manage placement activities, companies, applications
+                and placement prediction from one place.
+            </p>
+
+        </div>
+
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+
+            <!-- ML PREDICTION -->
+
+            <div class="card">
+
+                <div class="icon">
+                    ⚡
+                </div>
+
+                <h2>
+                    Placement Prediction
+                </h2>
+
+                <p>
+                    Predict your placement probability using
+                    Machine Learning based on your academic
+                    and skill information.
+                </p>
+
+                <a href="/predict-placement" class="btn">
+                    Predict Placement →
+                </a>
+
+            </div>
+
+
+            <!-- AI RESUME ANALYZER -->
+
+            <div class="card" style="border: 2px solid #07549a;">
+
+                <div class="icon">
+                    🤖
+                </div>
+
+                <h2 style="color: #07549a;">
+                    AI Resume Analyzer & Search Hub
+                </h2>
+
+                <p>
+                    Evaluate your resume with NLP, check ATS score,
+                    find skill gaps, get improvement suggestions,
+                    and match against campus recruiters.
+                </p>
+
+                <a href="/resume-analyzer" class="btn" style="background: #28a745;">
+                    Analyze Resume →
+                </a>
+
+            </div>
+
+
+            <!-- COMPANIES -->
+
+            <div class="card">
+
+                <div class="icon">
+                    🏢
+                </div>
+
+                <h2>
+                    Companies & Jobs
+                </h2>
+
+                <p>
+                    View available companies, job roles,
+                    eligibility criteria and placement opportunities.
+                </p>
+
+                <a href="/companies" class="btn">
+                    View Companies →
+                </a>
+
+            </div>
+
+
+            <!-- APPLICATION -->
+
+            <div class="card">
+
+                <div class="icon">
+                    📝
+                </div>
+
+                <h2>
+                    Placement Application
+                </h2>
+
+                <p>
+                    Apply for available placement opportunities
+                    and manage your applications.
+                </p>
+
+                <a href="/companies" class="btn">
+                    Apply Now →
+                </a>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="card">
+
+                <div class="icon">
+                    📋
+                </div>
+
+                <h2>
+                    Application Status
+                </h2>
+
+                <p>
+                    Check the current status of your placement
+                    applications.
+                </p>
+
+                <a href="/applications" class="btn">
+                    Check Status →
+                </a>
+
+            </div>
+
+
+            <!-- STUDENT DATA -->
+
+            <div class="card">
+
+                <div class="icon">
+                    🎓
+                </div>
+
+                <h2>
+                    Student Information
+                </h2>
+
+                <p>
+                    View academic performance, attendance,
+                    projects, internships and skills.
+                </p>
+
+                <a href="/profile" class="btn">
+                    View Profile →
+                </a>
+
+            </div>
+
+
+            <!-- DATASET -->
+
+            <div class="card">
+
+                <div class="icon">
+                    📊
+                </div>
+
+                <h2>
+                    Placement Dataset & ML Model
+                </h2>
+
+                <p>
+                    Inspect model accuracy, classification report,
+                    confusion matrix and 500-student training dataset.
+                </p>
+
+                <a href="/model-analysis" class="btn">
+                    View Evaluation & Dataset →
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+
+        <div class="footer">
+            © 2026 AMITY7ONE Smart Campus
+        </div>
+
+    </div>
+
+</body>
+</html>

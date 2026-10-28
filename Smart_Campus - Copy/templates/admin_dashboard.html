@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AMITY7ONE SMART CAMPUS</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        /* TOP NAVIGATION */
+        .top-navbar {
+            height: 72px;
+            background: linear-gradient(90deg, #07529b, #0b3c6d);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #ffd000;
+        }
+
+        .brand-divider {
+            height: 28px;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .portal-tag {
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 5px 12px;
+            border-radius: 6px;
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 7px 14px;
+            border-radius: 8px;
+        }
+
+        .admin-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .btn-portal {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-portal:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-logout {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background: #b91c1c;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 28px auto;
+            padding: 0 24px;
+        }
+
+        /* TOAST ALERT */
+        .alert-toast {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            color: #065f46;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-val {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 10px 0 6px;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* TABS HEADER */
+        .tabs-header {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+            gap: 6px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 18px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: #07529b;
+            color: white;
+            box-shadow: 0 2px 8px rgba(7, 82, 155, 0.2);
+        }
+
+        /* TAB CONTENT PANELS */
+        .tab-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 40px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* SEARCH & FILTER BAR */
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 10px 16px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 260px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #07529b;
+        }
+
+        .filter-select {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            color: #334155;
+            outline: none;
+        }
+
+        .btn-filter {
+            background: #07529b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-filter:hover {
+            background: #0b3c6d;
+        }
+
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* TABLE STYLING */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        thead {
+            background: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        th {
+            padding: 14px 16px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .badge-placed {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-not-placed {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .badge-applied {
+            background: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .badge-shortlisted {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+
+        .badge-interview {
+            background: #f3e8ff;
+            color: #7e22ce;
+            border: 1px solid #e9d5ff;
+        }
+
+        .badge-selected {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        /* COMPANIES GRID */
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .company-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .company-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .comp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .comp-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .comp-pkg {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .comp-role {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0284c7;
+            margin-bottom: 10px;
+        }
+
+        .comp-desc {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .comp-details {
+            font-size: 12px;
+            color: #475569;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+
+        .comp-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 14px;
+        }
+
+        .btn-delete {
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #fecdd3;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background: #ffe4e6;
+        }
+
+        /* ADD COMPANY FORM BOX */
+        .add-company-box {
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .add-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+            outline: none;
+        }
+
+        .btn-submit-comp {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-submit-comp:hover {
+            background: #15803d;
+        }
+
+        /* APPLICATION STATUS FORM */
+        .app-status-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .select-status {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-update-status {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-update-status:hover {
+            background: #0369a1;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP NAVBAR -->
+<div class="top-navbar">
+    <div class="brand-box">
+        <div class="logo">AMI<span>7ONE</span></div>
+        <div class="brand-divider"></div>
+        <div class="portal-tag">Admin & Placement Control Center</div>
+    </div>
+
+    <div class="nav-actions">
+        <div class="admin-badge">
+            <div class="admin-dot"></div>
+            <span>{{ session.get('admin_name', 'Placement Officer') }}</span>
+        </div>
+        <a href="/dashboard" class="btn-portal" title="Open student view">Student Portal</a>
+        <a href="/admin/logout" class="btn-logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    {% if request.args.get('msg') %}
+    <div class="alert-toast">
+        <span>✓ {{ request.args.get('msg') }}</span>
+        <button onclick="this.parentElement.remove()" style="background:none; border:none; cursor:pointer; font-size:16px;">×</button>
+    </div>
+    {% endif %}
+
+    <!-- STATS OVERVIEW -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Engineering Students</div>
+            <div class="stat-val">{{ "{:,}".format(total_students) }}</div>
+            <div class="stat-sub">From Indian Engineering 2026 Dataset</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Placed Candidates</div>
+            <div class="stat-val" style="color: #16a34a;">{{ "{:,}".format(placed_students) }}</div>
+            <div class="stat-sub">{{ "%.1f"|format((placed_students / total_students * 100) if total_students else 0) }}% Overall Placement Ratio</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Average Package (LPA)</div>
+            <div class="stat-val" style="color: #0284c7;">{{ "%.2f"|format(avg_package) }} LPA</div>
+            <div class="stat-sub">Top Offer: {{ "%.2f"|format(top_package) }} LPA</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Active Hiring Companies</div>
+            <div class="stat-val" style="color: #7e22ce;">{{ companies|length }}</div>
+            <div class="stat-sub">Top Tier Corporate Partners</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Placement Applications</div>
+            <div class="stat-val" style="color: #ea580c;">{{ applications|length }}</div>
+            <div class="stat-sub">Live student applications submitted</div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <div class="tabs-header">
+        <a href="?tab=students" class="tab-btn {{ 'active' if active_tab == 'students' else '' }}">
+            🎓 Student Directory ({{ "{:,}".format(total_students) }})
+        </a>
+        <a href="?tab=companies" class="tab-btn {{ 'active' if active_tab == 'companies' else '' }}">
+            🏢 Company Drives ({{ companies|length }})
+        </a>
+        <a href="?tab=applications" class="tab-btn {{ 'active' if active_tab == 'applications' else '' }}">
+            📝 Applications Manager ({{ applications|length }})
+        </a>
+        <a href="?tab=analytics" class="tab-btn {{ 'active' if active_tab == 'analytics' else '' }}">
+            📊 Branch & Placement Analytics
+        </a>
+    </div>
+
+    <!-- TAB 1: STUDENTS DIRECTORY -->
+    {% if active_tab == 'students' %}
+    <div class="tab-panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">🎓 Student Placement Directory</div>
+                <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Search and inspect student records from Indian Engineering Placement 2026</p>
+            </div>
+
+            <form method="GET" class="search-form">
+                <input type="hidden" name="tab" value="students">
+                <input
+                    type="text"
+                    name="q"
+                    class="search-input"
+                    placeholder="Search by ID, Name or Skills..."
+                    value="{{ search_query }}"
+                >
+
+                <select name="branch" class="filter-select">
+                    <option value="">All Branches</option>
+                    {% for b in all_branches %}
+                    <option value="{{ b }}" {{ 'selected' if selected_branch == b else '' }}>{{ b }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="status" class="filter-select">
+                    <option value="">All Statuses</option>
+                    <option value="Placed" {{ 'selected' if selected_status == 'Placed' else '' }}>Placed</option>
+                    <option value="Not Placed" {{ 'selected' if selected_status == 'Not Placed' else '' }}>Not Placed</option>
+                </select>
+
+                <button type="submit" class="btn-filter">Search</button>
+                {% if search_query or selected_branch or selected_status %}
+                <a href="?tab=students" class="btn-reset">Reset</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div style="margin-bottom: 12px; font-size: 13px; color: #64748b;">
+            Showing <strong>{{ students|length }}</strong> matching records (Display limit: 150):
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID / User</th>
+                        <th>Name</th>
+                        <th>Branch</th>
+                        <th>CGPA</th>
+                        <th>Attendance</th>
+                        <th>Coding Score</th>
+                        <th>Projects</th>
+                        <th>Internships</th>
+                        <th>Status</th>
+                        <th>Package</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td><strong>{{ s.student_id }}</strong></td>
+                        <td>{{ s.name }}</td>
+                        <td>{{ s.branch or s.course }}</td>
+                        <td><strong>{{ "%.2f"|format(s.cgpa) }}</strong></td>
+                        <td>{{ "%.1f"|format(s.attendance) }}%</td>
+                        <td>{{ s.coding_score }}</td>
+                        <td>{{ s.projects }}</td>
+                        <td>{{ s.internships }}</td>
+                        <td>
+                            {% if s.placement_status == 'Placed' %}
+                            <span class="badge badge-placed">✓ Placed</span>
+                            {% else %}
+                            <span class="badge badge-not-placed">Not Placed</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if s.package_lpa and s.package_lpa > 0 %}
+                            <strong style="color: #047857;">{{ "%.2f"|format(s.package_lpa) }} LPA</strong>
+                            {% else %}
+                            <span style="color: #94a3b8;">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 30px; color: #64748b;">
+                            No student records found matching your filters.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- TAB 2: COMPANY DRIVES -->
+    {% if active_tab == 'companies' %}
+    <div class="tab-panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">🏢 Campus Placement Drives</div>
+                <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Manage corporate recruiters, job roles, eligibility criteria and openings</p>
+            </div>
+        </div>
+
+        <!-- ADD COMPANY FORM -->
+        <div class="add-company-box">
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #0f172a;">➕ Add New Hiring Company Drive</h3>
+            <form method="POST" action="/admin/company/add">
+                <div class="add-grid">
+                    <div class="form-field">
+                        <label>Company Name *</label>
+                        <input type="text" name="name" placeholder="e.g. Google, Amazon, Deloitte" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Job Role *</label>
+                        <input type="text" name="role" placeholder="e.g. Software Development Engineer" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Salary Package *</label>
+                        <input type="text" name="package" placeholder="e.g. 12.5 LPA" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Minimum CGPA *</label>
+                        <input type="number" step="0.1" min="0" max="10" name="min_cgpa" placeholder="e.g. 7.5" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Openings Count *</label>
+                        <input type="number" min="1" name="openings" placeholder="e.g. 10" value="5" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Job Location *</label>
+                        <input type="text" name="location" placeholder="e.g. Bengaluru / Remote" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Application Deadline *</label>
+                        <input type="date" name="deadline" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Required Skills *</label>
+                        <input type="text" name="required_skills" placeholder="e.g. Python, SQL, DSA" required>
+                    </div>
+                </div>
+                <div class="form-field" style="margin-bottom: 16px;">
+                    <label>Role Description</label>
+                    <textarea name="description" rows="2" placeholder="Brief job summary, team overview, and candidate requirements..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit-comp">POST COMPANY DRIVE</button>
+            </form>
+        </div>
+
+        <!-- COMPANIES LIST -->
+        <div class="companies-grid">
+            {% for comp in companies %}
+            <div class="company-card">
+                <div>
+                    <div class="comp-header">
+                        <div class="comp-name">{{ comp.name }}</div>
+                        <div class="comp-pkg">{{ comp.package }}</div>
+                    </div>
+                    <div class="comp-role">{{ comp.role }}</div>
+                    <div class="comp-desc">{{ comp.description or 'Campus placement recruitment drive.' }}</div>
+                    <div class="comp-details">
+                        <div><strong>🎯 Min CGPA:</strong> {{ comp.min_cgpa }}</div>
+                        <div><strong>👥 Openings:</strong> {{ comp.openings }} vacancies</div>
+                        <div><strong>📍 Location:</strong> {{ comp.location }}</div>
+                        <div><strong>📅 Deadline:</strong> {{ comp.deadline }}</div>
+                        <div><strong>💡 Skills:</strong> {{ comp.required_skills }}</div>
+                    </div>
+                </div>
+                <div class="comp-actions">
+                    <form method="POST" action="/admin/company/{{ comp.id }}/delete" onsubmit="return confirm('Are you sure you want to remove {{ comp.name }} drive?');">
+                        <button type="submit" class="btn-delete">Remove Drive</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- TAB 3: APPLICATIONS MANAGER -->
+    {% if active_tab == 'applications' %}
+    <div class="tab-panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">📝 Student Applications Manager</div>
+                <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Review student applications, shortlisting, interview schedules, and final selections</p>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>App ID</th>
+                        <th>Student</th>
+                        <th>Branch & CGPA</th>
+                        <th>Applied Company</th>
+                        <th>Role</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td><strong>#{{ app.id }}</strong></td>
+                        <td>
+                            <strong>{{ app.student_name }}</strong><br>
+                            <span style="font-size: 12px; color: #64748b;">ID: {{ app.student_id }}</span>
+                        </td>
+                        <td>
+                            {{ app.student_branch }}<br>
+                            <span style="font-size: 12px; font-weight: 700; color: #0284c7;">CGPA: {{ "%.2f"|format(app.student_cgpa) }}</span>
+                        </td>
+                        <td><strong>{{ app.company_name }}</strong></td>
+                        <td>{{ app.company_role }}</td>
+                        <td>{{ app.applied_date }}</td>
+                        <td>
+                            {% if app.status == 'Applied' %}
+                            <span class="badge badge-applied">Applied</span>
+                            {% elif app.status == 'Shortlisted' %}
+                            <span class="badge badge-shortlisted">Shortlisted</span>
+                            {% elif app.status == 'Interview' %}
+                            <span class="badge badge-interview">Interview Scheduled</span>
+                            {% elif app.status == 'Selected' or app.status == 'Placed' %}
+                            <span class="badge badge-selected">Selected / Placed</span>
+                            {% elif app.status == 'Rejected' %}
+                            <span class="badge badge-rejected">Rejected</span>
+                            {% else %}
+                            <span class="badge badge-applied">{{ app.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="POST" action="/admin/application/{{ app.id }}/update" class="app-status-form">
+                                <select name="status" class="select-status">
+                                    <option value="Applied" {{ 'selected' if app.status == 'Applied' else '' }}>Applied</option>
+                                    <option value="Shortlisted" {{ 'selected' if app.status == 'Shortlisted' else '' }}>Shortlisted</option>
+                                    <option value="Interview" {{ 'selected' if app.status == 'Interview' else '' }}>Interview</option>
+                                    <option value="Selected" {{ 'selected' if app.status == 'Selected' or app.status == 'Placed' else '' }}>Selected</option>
+                                    <option value="Rejected" {{ 'selected' if app.status == 'Rejected' else '' }}>Rejected</option>
+                                </select>
+                                <button type="submit" class="btn-update-status">Save</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 35px; color: #64748b;">
+                            No applications submitted yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- TAB 4: ANALYTICS -->
+    {% if active_tab == 'analytics' %}
+    <div class="tab-panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">📊 Placement Analytics by Engineering Branch</div>
+                <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Comprehensive statistical breakdown of student placements across all engineering departments</p>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th>Total Candidates</th>
+                        <th>Placed Candidates</th>
+                        <th>Placement %</th>
+                        <th>Average CGPA</th>
+                        <th>Average Package (LPA)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in branch_stats %}
+                    <tr>
+                        <td><strong>{{ b.branch }}</strong></td>
+                        <td>{{ "{:,}".format(b.total) }}</td>
+                        <td><strong style="color: #16a34a;">{{ "{:,}".format(b.placed) }}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; max-width: 120px;">
+                                    <div style="height: 100%; width: {{ (b.placed / b.total * 100)|round }}%; background: #07529b;"></div>
+                                </div>
+                                <span style="font-weight: 700;">{{ "%.1f"|format((b.placed / b.total * 100) if b.total else 0) }}%</span>
+                            </div>
+                        </td>
+                        <td>{{ "%.2f"|format(b.avg_cgpa) }}</td>
+                        <td><strong style="color: #047857;">{{ "%.2f"|format(b.avg_pkg) }} LPA</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

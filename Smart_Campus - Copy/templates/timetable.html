@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table - AMITY7ONE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f4f8;
+            color: #222;
+        }
+
+        .top {
+            height: 78px;
+            background: #07579b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logout {
+            background: #f44336;
+            color: white;
+            padding: 11px 22px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 25px;
+            margin-left: 230px;
+        }
+
+        h1 {
+            color: #07579b;
+            margin-bottom: 20px;
+        }
+
+        .table-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        th {
+            background: #07579b;
+            color: white;
+            padding: 13px 8px;
+            border: 1px solid #ddd;
+        }
+
+        td {
+            padding: 13px 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .day {
+            background: #e8f1f8;
+            color: #07579b;
+            font-weight: bold;
+        }
+
+        .subject {
+            color: #8b008b;
+            font-weight: bold;
+        }
+
+        .faculty {
+            color: #555;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .break {
+            background: #fff3cd;
+            font-weight: bold;
+            color: #856404;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top">
+
+        <div class="logo">
+            AMITY7ONE
+        </div>
+
+        <div class="title">
+            Time Table
+        </div>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+
+        <h1>My Time Table</h1>
+
+        <div class="table-box">
+
+            <table>
+
+                <tr>
+                    <th>Day</th>
+                    <th>9:15 - 10:10</th>
+                    <th>10:15 - 11:10</th>
+                    <th>11:15 - 12:10</th>
+                    <th>12:15 - 12:55</th>
+                    <th>1:00 - 1:55</th>
+                    <th>2:00 - 2:55</th>
+                    <th>3:00 - 3:55</th>
+                    <th>4:00 - 4:55</th>
+                </tr>
+
+
+                <!-- MONDAY -->
+                <tr>
+
+                    <td class="day">Monday</td>
+
+                    <td>
+                        <div class="subject">Software Engineering</div>
+                        <div class="faculty">Mrs Deepti Saxena</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Computer Architecture</div>
+                        <div class="faculty">Mr Amit Chaurasia</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Java Programming</div>
+                        <div class="faculty">Dr Sanjay Jain</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Communication Skills-III</div>
+                        <div class="faculty">Ms Padmakshi Sharma</div>
+                    </td>
+
+                    <td class="break">
+                        Lunch
+                    </td>
+
+                    <td>
+                        Open Elective<br>
+                        <span class="faculty">Biodiversity and Law</span>
+                    </td>
+
+                    <td>
+                        German<br>
+                        <span class="faculty">Dr Raksha Gusain</span>
+                    </td>
+
+                    <td></td>
+
+                </tr>
+
+
+                <!-- TUESDAY -->
+                <tr>
+
+                    <td class="day">Tuesday</td>
+
+                    <td>
+                        <div class="subject">Java Programming</div>
+                        <div class="faculty">Dr Sanjay Jain</div>
+                    </td>
+
+                    <td colspan="2">
+                        <div class="subject">Python Programming Lab</div>
+                        <div class="faculty">Dr Taranpreet Singh Ruprah</div>
+                    </td>
+
+                    <td class="break">
+                        Lunch
+                    </td>
+
+                    <td>
+                        German<br>
+                        <span class="faculty">Dr Raksha Gusain</span>
+                    </td>
+
+                    <td>
+                        <div class="subject">Software Engineering</div>
+                        <div class="faculty">Mrs Deepti Saxena</div>
+                    </td>
+
+                    <td>
+                        Open Elective<br>
+                        <span class="faculty">Biodiversity and Law</span>
+                    </td>
+
+                    <td></td>
+
+                </tr>
+
+
+                <!-- WEDNESDAY -->
+                <tr>
+
+                    <td class="day">Wednesday</td>
+
+                    <td>
+                        <div class="subject">Behavioural Science-V</div>
+                        <div class="faculty">Dr Neha Gupta</div>
+                    </td>
+
+                    <td></td>
+
+                    <td>
+                        <div class="subject">Computer Architecture</div>
+                        <div class="faculty">Mr Amit Chaurasia</div>
+                    </td>
+
+                    <td class="break">
+                        Lunch
+                    </td>
+
+                    <td>
+                        <div class="subject">Python Programming</div>
+                        <div class="faculty">Dr Taranpreet Singh Ruprah</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Java Programming</div>
+                        <div class="faculty">Dr Sanjay Jain</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Java Programming Lab</div>
+                        <div class="faculty">Dr Sanjay Jain</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Computer Architecture Lab</div>
+                        <div class="faculty">Mr Amit Chaurasia</div>
+                    </td>
+
+                </tr>
+
+
+                <!-- THURSDAY -->
+                <tr>
+
+                    <td class="day">Thursday</td>
+
+                    <td colspan="2">
+                        <div class="subject">Python Programming Lab</div>
+                        <div class="faculty">Dr Taranpreet Singh Ruprah</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Software Engineering</div>
+                        <div class="faculty">Mrs Deepti Saxena</div>
+                    </td>
+
+                    <td class="break">
+                        Lunch
+                    </td>
+
+                    <td>
+                        Open Elective<br>
+                        <span class="faculty">Biodiversity and Law</span>
+                    </td>
+
+                    <td>
+                        Open Elective<br>
+                        <span class="faculty">Biodiversity and Law</span>
+                    </td>
+
+                    <td>
+                        <div class="subject">Computer Architecture Lab</div>
+                        <div class="faculty">Mr Amit Chaurasia</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Software Engineering Lab</div>
+                        <div class="faculty">Mrs Deepti Saxena</div>
+                    </td>
+
+                </tr>
+
+
+                <!-- FRIDAY -->
+                <tr>
+
+                    <td class="day">Friday</td>
+
+                    <td colspan="2">
+                        <div class="subject">Java Programming Lab</div>
+                        <div class="faculty">Dr Sanjay Jain</div>
+                    </td>
+
+                    <td>
+                        <div class="subject">Computer Architecture</div>
+                        <div class="faculty">Mr Amit Chaurasia</div>
+                    </td>
+
+                    <td class="break">
+                        Lunch
+                    </td>
+
+                    <td>
+                        <div class="subject">Python Programming</div>
+                        <div class="faculty">Dr Taranpreet Singh Ruprah</div>
+                    </td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="footer">
+            © 2026 AMITY7ONE Smart Campus
+        </div>
+
+    </div>
+
+</body>
+</html>

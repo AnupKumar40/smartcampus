@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>My Attendance - AMITY7ONE</title>
+
+<style>
+
+body {
+
+    margin: 0;
+
+    font-family: Arial;
+
+    background: #f2f5f8;
+}
+
+.top {
+
+    height: 65px;
+
+    background: #07529a;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 25px;
+}
+
+.logo {
+
+    font-size: 30px;
+
+    font-weight: bold;
+}
+
+.back {
+
+    color: white;
+
+    text-decoration: none;
+
+    background: #ed3d35;
+
+    padding: 12px 20px;
+
+    border-radius: 5px;
+}
+
+.container {
+
+    margin-left: 220px;
+
+    padding: 30px;
+}
+
+.box {
+
+    background: white;
+
+    border: 1px solid #ddd;
+
+    max-width: 1100px;
+}
+
+.title {
+
+    padding: 20px;
+
+    color: #07529a;
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.row {
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 14px;
+
+    border-bottom: 1px solid #ddd;
+
+    cursor: pointer;
+}
+
+.row:hover {
+
+    background: #eef7ff;
+}
+
+.code {
+
+    width: 100px;
+
+    font-weight: bold;
+
+    color: #061795;
+}
+
+.name {
+
+    flex: 1;
+
+    color: #315e7c;
+
+    font-size: 16px;
+}
+
+.count {
+
+    width: 80px;
+
+    color: #061795;
+
+    font-weight: bold;
+}
+
+.percent {
+
+    width: 80px;
+
+    font-weight: bold;
+}
+
+.circle {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        conic-gradient(
+            #19a33b calc(var(--value) * 1%),
+            #ddd 0
+        );
+
+    position: relative;
+}
+
+.circle::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: white;
+}
+
+.circle span {
+
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="top">
+
+<div class="logo">
+AMITY7ONE
+</div>
+
+<a href="/dashboard" class="back">
+← Dashboard
+</a>
+
+</div>
+
+
+<div class="container">
+
+<div class="box">
+
+<div class="title">
+
+My Attendance
+
+<br>
+
+<small>
+{{ student["name"] }} |
+Student ID: {{ student["student_id"] }}
+</small>
+
+</div>
+
+
+{% for subject in subjects %}
+
+<div
+class="row"
+onclick="showDetails(
+'{{ subject.code }}',
+'{{ subject.name }}',
+'{{ subject.present }}',
+'{{ subject.total }}',
+'{{ subject.att }}'
+)"
+>
+
+
+<div class="code">
+
+{{ subject.code }}
+
+</div>
+
+
+<div class="name">
+
+{{ subject.name }}
+
+</div>
+
+
+<div class="count">
+
+{{ subject.present }}/{{ subject.total }}
+
+</div>
+
+
+<div class="percent">
+
+{{ "%.2f"|format(subject.att) }}%
+
+</div>
+
+
+<div
+class="circle"
+style="--value:{{ subject.att }}"
+>
+
+<span>
+{{ "%.0f"|format(subject.att) }}%
+</span>
+
+</div>
+
+
+</div>
+
+{% endfor %}
+
+
+</div>
+
+</div>
+
+
+<script>
+
+function showDetails(code, name, present, total, percentage) {
+
+    alert(
+        "Subject: " + name +
+        "\nCode: " + code +
+        "\nAttendance: " + present +
+        "/" + total +
+        "\nPercentage: " + percentage + "%"
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

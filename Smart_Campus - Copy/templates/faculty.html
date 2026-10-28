@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Faculty</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            color: #222;
+        }
+
+        /* TOP BAR */
+        .top {
+            height: 78px;
+            background: #09579b;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .campus {
+            font-size: 20px;
+        }
+
+        .logout {
+            background: #f44336;
+            color: white;
+            text-decoration: none;
+
+            padding: 12px 22px;
+            border-radius: 5px;
+
+            font-size: 16px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 78px;
+            left: 0;
+
+            width: 230px;
+            height: calc(100vh - 78px);
+
+            background: white;
+            border-right: 1px solid #ddd;
+
+            overflow-y: auto;
+        }
+
+        .sidebar a {
+            display: block;
+
+            padding: 18px 15px;
+
+            color: #17324d;
+            text-decoration: none;
+
+            border-bottom: 1px solid #eee;
+
+            font-size: 17px;
+        }
+
+        .sidebar a:hover {
+            background: #f1f6fb;
+            color: #09579b;
+        }
+
+        .sidebar .active {
+            color: #09579b;
+            font-weight: bold;
+            background: #eef6ff;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 230px;
+            padding: 25px;
+        }
+
+        .breadcrumb {
+            color: #777;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        h1 {
+            color: #1769aa;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* FACULTY GRID */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .faculty-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+
+            padding: 25px;
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .faculty-name {
+            color: #09579b;
+            font-size: 21px;
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .faculty-subject {
+            color: #555;
+            font-size: 17px;
+        }
+
+        .teacher-icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+            }
+
+            .faculty-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top">
+
+        <div class="logo">
+            AMITY7ONE
+        </div>
+
+        <div class="campus">
+            Smart Campus
+        </div>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <a href="/dashboard">
+            🏠 Home
+        </a>
+
+        <a href="#">
+            📅 My Calendar
+        </a>
+
+        <a href="#">
+            📝 SAP
+        </a>
+
+        <a href="/courses">
+            📚 My Courses
+        </a>
+
+        <a href="#">
+            📝 Registration
+        </a>
+
+        <a href="#">
+            🕐 Time Table
+        </a>
+
+        <a href="/faculty" class="active">
+            👥 My Faculty
+        </a>
+
+        <a href="#">
+            📋 Examination
+        </a>
+
+        <a href="#">
+            🎓 Student Placement Hub
+        </a>
+
+        <a href="#">
+            📄 Student Document
+        </a>
+
+        <a href="#">
+            💰 Fee Details
+        </a>
+
+        <a href="#">
+            📑 IAD
+        </a>
+
+        <a href="#">
+            💬 Student Support Hub
+        </a>
+
+        <a href="#">
+            🌐 The Global Times
+        </a>
+
+        <a href="#">
+            🎓 Scholarship
+        </a>
+
+        <a href="#">
+            📶 Register for Wifi
+        </a>
+
+        <a href="#">
+            🆔 ABC ID
+        </a>
+
+        <a href="#">
+            📚 Research Repository
+        </a>
+
+        <a href="#">
+            🏠 Hostel
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <div class="breadcrumb">
+            🏠 Home &nbsp;›&nbsp; My Faculty
+        </div>
+
+        <h1>My Faculty</h1>
+
+        <div class="faculty-grid">
+
+            {% for teacher in teachers %}
+
+            <div class="faculty-card">
+
+                <div class="teacher-icon">
+                    👨‍🏫
+                </div>
+
+                <div class="faculty-name">
+                    {{ teacher.name }}
+                </div>
+
+                <div class="faculty-subject">
+                    {{ teacher.subject }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="footer">
+            © 2026 AMITY7ONE Smart Campus
+        </div>
+
+    </div>
+
+</body>
+</html>

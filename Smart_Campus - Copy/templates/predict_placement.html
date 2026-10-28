@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Prediction - AI Model - AMITY7ONE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f4f8;
+            color: #2c3e50;
+        }
+
+        /* Top Bar */
+        .top {
+            height: 75px;
+            background: linear-gradient(135deg, #07549a, #0b69be);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(7, 84, 154, 0.2);
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.home-btn {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-btn.home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.profile-btn {
+            background: #28a745;
+        }
+
+        .nav-btn.profile-btn:hover {
+            background: #218838;
+        }
+
+        .nav-btn.logout-btn {
+            background: #ed3d35;
+        }
+
+        .nav-btn.logout-btn:hover {
+            background: #c82333;
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 25px 20px 60px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: #07549a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-title h1 {
+            margin: 0 0 6px 0;
+            color: #07549a;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .model-pill {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #bae6fd;
+        }
+
+        /* Student Hero Card */
+        .student-banner {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .student-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: #07549a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .student-meta h3 {
+            margin: 0 0 4px;
+            color: #1e293b;
+        }
+
+        .student-meta span {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .banner-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .b-stat {
+            text-align: center;
+            background: #f8fafc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #edf2f7;
+        }
+
+        .b-stat .val {
+            font-weight: 700;
+            color: #07549a;
+            font-size: 16px;
+        }
+
+        .b-stat .lbl {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Two Column Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 25px;
+        }
+
+        /* Form Card */
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #07549a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group label span.hint {
+            color: #94a3b8;
+            font-weight: normal;
+        }
+
+        .form-group input {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #07549a;
+            box-shadow: 0 0 0 3px rgba(7, 84, 154, 0.15);
+        }
+
+        .form-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-predict {
+            flex: 2;
+            background: #07549a;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-predict:hover {
+            background: #06457b;
+            transform: translateY(-1px);
+        }
+
+        .btn-reset {
+            flex: 1;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        /* Result Card */
+        .result-box {
+            text-align: center;
+            padding: 20px 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        /* Circular Meter */
+        .meter-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meter-svg {
+            transform: rotate(-90deg);
+            width: 150px;
+            height: 150px;
+        }
+
+        .meter-bg {
+            fill: none;
+            stroke: #e2e8f0;
+            stroke-width: 12;
+        }
+
+        .meter-bar {
+            fill: none;
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 440;
+            stroke-dashoffset: calc(440 - (440 * {{ probability|default(82) }}) / 100);
+            transition: stroke-dashoffset 1.2s ease-in-out;
+            stroke: {% if probability|default(82) >= 65 %}#16a34a{% elif probability|default(82) >= 45 %}#eab308{% else %}#dc2626{% endif %};
+        }
+
+        .meter-text {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .meter-val {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .meter-sub {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #64748b;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+        }
+
+        .status-badge.placed {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+
+        .status-badge.not-placed {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+        .result-desc {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Recommendations */
+        .recom-card {
+            margin-top: 15px;
+        }
+
+        .recom-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #07549a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recom-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .recom-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13.5px;
+            line-height: 1.45;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3.5px solid #07549a;
+        }
+
+        .recom-item.positive {
+            border-left-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .action-banner {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #07549a, #1e3a8a);
+            color: white;
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-banner p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .action-banner a {
+            background: white;
+            color: #07549a;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 9px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .action-banner a:hover {
+            background: #e2e8f0;
+        }
+
+        @media(max-width: 950px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top">
+        <div class="logo-wrap">
+            <div class="logo">AMITY7ONE</div>
+            <div class="tagline">Smart Campus AI Hub</div>
+        </div>
+
+        <div class="top-nav">
+            <a href="/placement" class="nav-btn home-btn">🎓 Placement Hub</a>
+            <a href="/dashboard" class="nav-btn home-btn">🏠 Dashboard</a>
+            <a href="/profile" class="nav-btn profile-btn">Profile</a>
+            <a href="/logout" class="nav-btn logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main">
+        <div class="breadcrumb">
+            <a href="/dashboard">Home</a>
+            <span>›</span>
+            <a href="/placement">Student Placement Hub</a>
+            <span>›</span>
+            <span>Placement Prediction</span>
+        </div>
+
+        <div class="page-header">
+            <div class="page-title">
+                <h1>🤖 AI Placement Prediction</h1>
+                <p>Real-time placement probability estimation powered by Random Forest ML Classifier</p>
+            </div>
+            <div class="model-pill">
+                <span>🌲 Random Forest (100 Trees)</span>
+                <span>•</span>
+                <span>85% Accuracy</span>
+            </div>
+        </div>
+
+        <!-- Current Student Banner -->
+        <div class="student-banner">
+            <div class="student-meta">
+                <div class="avatar">{{ student['name'][0] }}</div>
+                <div>
+                    <h3>{{ student['name'] }} (ID: {{ student['student_id'] }})</h3>
+                    <span>{{ student['course'] }} • Semester {{ student['semester'] }}</span>
+                </div>
+            </div>
+            <div class="banner-stats">
+                <div class="b-stat">
+                    <div class="val">{{ student['cgpa'] }}</div>
+                    <div class="lbl">Current CGPA</div>
+                </div>
+                <div class="b-stat">
+                    <div class="val">{{ student['attendance'] }}%</div>
+                    <div class="lbl">Attendance</div>
+                </div>
+                <div class="b-stat">
+                    <div class="val">{{ student['projects'] }}</div>
+                    <div class="lbl">Projects</div>
+                </div>
+                <div class="b-stat">
+                    <div class="val">{{ student['internships'] }}</div>
+                    <div class="lbl">Internships</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2 Column Grid -->
+        <div class="grid">
+            
+            <!-- Left: Interactive Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Student Feature Profile</h2>
+                    <span style="font-size: 13px; color: #64748b;">Adjust values to test "What-If" scenarios</span>
+                </div>
+
+                <form method="POST" action="/predict-placement">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>
+                                🎓 CGPA
+                                <span class="hint">Range: 0 - 10</span>
+                            </label>
+                            <input type="number" step="0.01" min="0" max="10" name="cgpa" value="{{ form_data.cgpa }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                📅 Attendance (%)
+                                <span class="hint">0 - 100</span>
+                            </label>
+                            <input type="number" step="0.1" min="0" max="100" name="attendance" value="{{ form_data.attendance }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                🧠 Aptitude Score
+                                <span class="hint">0 - 100</span>
+                            </label>
+                            <input type="number" step="0.1" min="0" max="100" name="aptitude_score" value="{{ form_data.aptitude_score }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                💻 Coding Score
+                                <span class="hint">0 - 100</span>
+                            </label>
+                            <input type="number" step="0.1" min="0" max="100" name="coding_score" value="{{ form_data.coding_score }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                📁 Projects Completed
+                                <span class="hint">Count</span>
+                            </label>
+                            <input type="number" min="0" max="15" name="projects" value="{{ form_data.projects }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                🏢 Internships
+                                <span class="hint">Count</span>
+                            </label>
+                            <input type="number" min="0" max="10" name="internships" value="{{ form_data.internships }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                🛠️ Technical Skill Count
+                                <span class="hint">Languages/Tools</span>
+                            </label>
+                            <input type="number" min="1" max="20" name="skill_count" value="{{ form_data.skill_count }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                🗣️ Communication Score
+                                <span class="hint">0 - 100</span>
+                            </label>
+                            <input type="number" step="0.1" min="0" max="100" name="communication_score" value="{{ form_data.communication_score }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-predict">
+                            ⚡ Run Machine Learning Prediction
+                        </button>
+                        <a href="/predict-placement" class="btn-reset">
+                            Reset to My Data
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Prediction Results & Insights -->
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🎯 Prediction Outcome</h2>
+                        <span style="font-size: 13px; color: #64748b;">Live ML Inference</span>
+                    </div>
+
+                    <div class="result-box">
+                        <!-- SVG Radial Meter -->
+                        <div class="meter-container">
+                            <svg class="meter-svg" viewBox="0 0 160 160">
+                                <circle class="meter-bg" cx="80" cy="80" r="70"></circle>
+                                <circle class="meter-bar" cx="80" cy="80" r="70"></circle>
+                            </svg>
+                            <div class="meter-text">
+                                <span class="meter-val">{{ probability }}%</span>
+                                <span class="meter-sub">Probability</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            {% if probability >= 65 %}
+                                <div class="status-badge placed">
+                                    ✓ Likely to be Placed
+                                </div>
+                                <p class="result-desc">
+                                    Excellent profile! Your strong academic track record and technical scores align with regular campus recruiter criteria.
+                                </p>
+                            {% elif probability >= 50 %}
+                                <div class="status-badge placed" style="background: #fef9c3; color: #854d0e; border-color: #fde047;">
+                                    ⚖️ Moderate Placement Chance
+                                </div>
+                                <p class="result-desc">
+                                    Competitive profile with good potential. Strengthening coding score and project portfolio will guarantee top tier offers.
+                                </p>
+                            {% else %}
+                                <div class="status-badge not-placed">
+                                    ⚠️ Needs Improvement
+                                </div>
+                                <p class="result-desc">
+                                    Current metrics fall below typical campus placement cutoff thresholds. Target improvement in key technical and academic areas.
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Personalized Recommendations -->
+                    <div class="recom-card">
+                        <h3>💡 Smart Action Items</h3>
+                        <ul class="recom-list">
+                            {% for rec in recommendations %}
+                                <li class="recom-item {% if 'Solid' in rec or 'Excellent' in rec or 'Strong' in rec %}positive{% endif %}">
+                                    <span>👉</span>
+                                    <span>{{ rec }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="action-banner">
+                        <div>
+                            <p><strong>Ready to check open roles?</strong></p>
+                            <span style="font-size: 12px; opacity: 0.9;">View companies visiting campus and apply</span>
+                        </div>
+                        <a href="/companies">Explore Companies →</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

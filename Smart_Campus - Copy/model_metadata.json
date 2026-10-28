@@ -1,0 +1,55 @@
+{
+    "model_name": "Random Forest Classifier",
+    "dataset_source": "Indian Engineering Placement Dataset 2026 (Vishwajeet Chandole)",
+    "n_estimators": 100,
+    "max_depth": 12,
+    "total_records": 15000,
+    "train_records": 12000,
+    "test_records": 3000,
+    "train_accuracy": 89.43,
+    "test_accuracy": 76.27,
+    "confusion_matrix": [
+        [
+            614,
+            432
+        ],
+        [
+            280,
+            1674
+        ]
+    ],
+    "feature_importances": {
+        "DSA_Problems_Solved": 0.3411,
+        "CGPA": 0.1602,
+        "Communication_Score": 0.1121,
+        "Attendance_Percentage": 0.0969,
+        "Aptitude_Score": 0.0921,
+        "Internships_Count": 0.0908,
+        "Projects_Count": 0.0582,
+        "Certifications_Count": 0.0485
+    },
+    "feature_names": [
+        "CGPA",
+        "Attendance_Percentage",
+        "Aptitude_Score",
+        "DSA_Problems_Solved",
+        "Projects_Count",
+        "Internships_Count",
+        "Certifications_Count",
+        "Communication_Score"
+    ],
+    "classification_report": {
+        "Not Placed": {
+            "precision": 68.68,
+            "recall": 58.7,
+            "f1_score": 63.3,
+            "support": 1046.0
+        },
+        "Placed": {
+            "precision": 79.49,
+            "recall": 85.67,
+            "f1_score": 82.46,
+            "support": 1954.0
+        }
+    }
+}

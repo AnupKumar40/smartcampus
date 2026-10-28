@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - AMITY7ONE</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f4f7;
+            color: #333;
+        }
+
+        /* TOP HEADER */
+
+        .top {
+            height: 70px;
+            background: #07549a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: 22px;
+        }
+
+        .back {
+            background: #28a745;
+            color: white;
+
+            padding: 11px 20px;
+
+            border-radius: 5px;
+
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .back:hover {
+            background: #218838;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+        }
+
+
+        /* PROFILE CARD */
+
+        .card {
+            background: white;
+
+            border-radius: 8px;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+
+            overflow: hidden;
+        }
+
+
+        /* CARD HEADER */
+
+        .card-header {
+            background: #07549a;
+            color: white;
+
+            padding: 20px 30px;
+
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+
+        /* PROFILE BODY */
+
+        .profile-body {
+            padding: 30px;
+        }
+
+
+        /* EACH ROW */
+
+        .row {
+            display: flex;
+
+            padding: 18px 10px;
+
+            border-bottom: 1px solid #ddd;
+
+            font-size: 18px;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+
+        .label {
+            width: 220px;
+
+            font-weight: bold;
+
+            color: #07549a;
+        }
+
+
+        .value {
+            color: #333;
+        }
+
+
+        /* ATTENDANCE */
+
+        .attendance {
+            font-weight: bold;
+            color: #0a9f3d;
+        }
+
+
+        /* CGPA */
+
+        .cgpa {
+            font-weight: bold;
+            color: #e69500;
+        }
+
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width: 700px) {
+
+            .top {
+                padding: 0 12px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .title {
+                display: none;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .row {
+                display: block;
+            }
+
+            .label {
+                display: block;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- TOP HEADER -->
+
+<div class="top">
+
+    <div class="logo">
+        AMITY7ONE
+    </div>
+
+    <div class="title">
+        Smart Campus
+    </div>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+
+</div>
+
+
+
+<!-- MAIN CONTENT -->
+
+<div class="container">
+
+
+    <div class="card">
+
+
+        <!-- HEADER -->
+
+        <div class="card-header">
+            Student Profile
+        </div>
+
+
+        <!-- PROFILE DETAILS -->
+
+        <div class="profile-body">
+
+
+            <div class="row">
+
+                <div class="label">
+                    Student ID
+                </div>
+
+                <div class="value">
+                    {{ student["student_id"] }}
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="label">
+                    Name
+                </div>
+
+                <div class="value">
+                    {{ student["name"] }}
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="label">
+                    Course
+                </div>
+
+                <div class="value">
+                    {{ student["course"] }}
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="label">
+                    Semester
+                </div>
+
+                <div class="value">
+                    {{ student["semester"] }}
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="label">
+                    Attendance
+                </div>
+
+                <div class="value attendance">
+                    {{ student["attendance"] }}%
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="label">
+                    CGPA
+                </div>
+
+                <div class="value cgpa">
+                    {{ student["cgpa"] }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 AMITY7ONE Smart Campus
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

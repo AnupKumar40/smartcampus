@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer & Search Hub - AMITY7ONE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #07549a;
+            --primary-dark: #053c6e;
+            --primary-light: #e8f2fc;
+            --secondary: #10b981;
+            --accent: #6366f1;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* ================= TOP BAR ================= */
+        .top {
+            height: 74px;
+            background: linear-gradient(135deg, #07549a 0%, #0c3e74 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .brand-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-portal {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(110, 231, 183, 0.3);
+            text-transform: uppercase;
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-nav {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-nav-home {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-nav-home:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-nav-placement {
+            background: #2563eb;
+        }
+
+        .btn-nav-placement:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-nav-profile {
+            background: #10b981;
+        }
+
+        .btn-nav-profile:hover {
+            background: #059669;
+        }
+
+        .btn-nav-logout {
+            background: #ef4444;
+        }
+
+        .btn-nav-logout:hover {
+            background: #dc2626;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 30px 24px 60px;
+        }
+
+        .breadcrumb {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= HERO BANNER ================= */
+        .hero {
+            background: linear-gradient(135deg, #07549a 0%, #1e40af 50%, #312e81 100%);
+            border-radius: var(--radius-lg);
+            padding: 36px 40px;
+            color: white;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: #cbd5e1;
+            max-width: 850px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-tag {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ================= ALERTS ================= */
+        .alert {
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        /* ================= GRID WORKSPACE ================= */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-pill {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        /* ================= UPLOAD ZONE ================= */
+        .dropzone {
+            border: 2px dashed #93c5fd;
+            background: #f8fbff;
+            border-radius: var(--radius-md);
+            padding: 32px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .dropzone:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .dropzone-icon {
+            font-size: 44px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .dropzone-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .dropzone-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .file-input-wrap {
+            margin: 12px 0;
+        }
+
+        .file-input {
+            padding: 8px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            max-width: 100%;
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 14.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-upload:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Active Resume Card */
+        .active-resume-card {
+            background: linear-gradient(to bottom right, #f0fdf4, #ffffff);
+            border: 1.5px solid #86efac;
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+
+        .resume-file-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .resume-filename {
+            font-weight: 700;
+            font-size: 16px;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resume-meta-badge {
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .resume-stats-row {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .resume-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-outline-danger {
+            background: white;
+            color: var(--danger);
+            border: 1px solid #fca5a5;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-danger:hover {
+            background: #fee2e2;
+        }
+
+        .btn-outline-secondary {
+            background: white;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #f1f5f9;
+            color: var(--text-main);
+        }
+
+        /* Extracted details snapshot */
+        .snapshot-wrap {
+            margin-top: 18px;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .snapshot-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .snapshot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        .snapshot-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .snapshot-label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .snapshot-val {
+            font-weight: 600;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .chip {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chip-tech {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+
+        .chip-soft {
+            background: #f3e8ff;
+            color: #7e22ce;
+            border: 1px solid #e9d5ff;
+        }
+
+        .chip-match {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+
+        .chip-miss {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+        .chip-extra {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* ================= JOB SELECTION TABS ================= */
+        .tab-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .company-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .company-pill {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .company-pill:hover,
+        .company-pill.selected {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+
+        .company-pill-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .company-pill-role {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .company-pill-pkg {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #059669;
+            margin-top: 4px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .preset-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+
+        .jd-textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.2s;
+            margin-bottom: 16px;
+        }
+
+        .jd-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(7, 84, 154, 0.15);
+        }
+
+        .btn-analyze {
+            width: 100%;
+            background: linear-gradient(135deg, #07549a 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(7, 84, 154, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(7, 84, 154, 0.35);
+        }
+
+        /* ================= ANALYSIS RESULTS DASHBOARD ================= */
+        .results-section {
+            margin-top: 20px;
+            margin-bottom: 45px;
+        }
+
+        .results-hero {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 28px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        /* Circular Gauge */
+        .gauge-wrap {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circular-gauge {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .gauge-inner {
+            width: 142px;
+            height: 142px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .gauge-score {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--text-main);
+        }
+
+        .gauge-percent {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .gauge-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .rating-badge {
+            margin-top: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Hero Right Details */
+        .results-meta h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .results-summary {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .score-pillars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .pillar-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: center;
+        }
+
+        .pillar-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+
+        .pillar-label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .results-action-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 9px 18px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-print {
+            background: white;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+
+        .btn-print:hover {
+            background: var(--primary-light);
+        }
+
+        .btn-apply-direct {
+            background: #10b981;
+            color: white;
+            border: none;
+        }
+
+        .btn-apply-direct:hover {
+            background: #059669;
+        }
+
+        /* Results 2-Column Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 30px;
+        }
+
+        /* Skill Gap Matrix */
+        .matrix-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .matrix-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Suggestions List */
+        .suggestion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .suggestion-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .suggestion-card.critical {
+            border-left-color: var(--danger);
+            background: #fef2f2;
+        }
+
+        .suggestion-card.keyword {
+            border-left-color: var(--accent);
+            background: #eef2ff;
+        }
+
+        .suggestion-card.impact {
+            border-left-color: var(--warning);
+            background: #fffbeb;
+        }
+
+        .suggestion-head {
+            font-size: 14.5px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .suggestion-text {
+            font-size: 13.5px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* Keyword Table */
+        .keyword-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin-top: 10px;
+        }
+
+        .keyword-table th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .keyword-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* ================= SEARCH HUB (CENTRALIZED RECRUITMENT OPPORTUNITIES) ================= */
+        .hub-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+        }
+
+        .hub-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .hub-search-bar {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .company-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .comp-job-card {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+
+        .comp-job-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .comp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .comp-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .comp-role {
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .comp-match-pill {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 12px;
+        }
+
+        .comp-details-list {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .comp-skills-wrap {
+            margin: 12px 0 16px;
+        }
+
+        .comp-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-card-analyze {
+            flex: 1;
+            text-align: center;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-card-analyze:hover {
+            background: #dbeafe;
+        }
+
+        .btn-card-apply {
+            flex: 1;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-card-apply:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ================= FOOTER ================= */
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            padding: 24px 0 10px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        /* ================= PRINT STYLES ================= */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .top,
+            .breadcrumb,
+            .hero,
+            .workspace-grid,
+            .hub-section,
+            .results-action-row,
+            .footer,
+            .btn-outline-danger,
+            .btn-outline-secondary {
+                display: none !important;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .results-hero {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-after: avoid;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .print-header {
+                display: block !important;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #07549a;
+                padding-bottom: 10px;
+            }
+        }
+
+        .print-header {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .workspace-grid,
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .company-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .score-pillars {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .results-hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .company-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top {
+                padding: 0 16px;
+            }
+
+            .brand-title {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PRINT ONLY HEADER -->
+    <div class="print-header">
+        <h1 style="color: #07549a; font-size: 24px;">AMITY7ONE Smart Campus - AI Resume & ATS Evaluation Report</h1>
+        <p style="font-size: 13px; color: #555;">Student: {{ student['name'] }} (ID: {{ student['student_id'] }}) | Course: {{ student['course'] }} | CGPA: {{ student['cgpa'] }}</p>
+    </div>
+
+    <!-- ================= TOP BAR ================= -->
+    <div class="top">
+        <div class="brand-wrap">
+            <div class="logo">AMITY7ONE</div>
+            <div class="brand-title">
+                Smart Campus
+                <span class="badge-portal">AI Resume Hub</span>
+            </div>
+        </div>
+
+        <div class="top-buttons">
+            <a href="/dashboard" class="btn-nav btn-nav-home">🏠 Dashboard</a>
+            <a href="/placement" class="btn-nav btn-nav-placement">🎓 Placement Hub</a>
+            <a href="/profile" class="btn-nav btn-nav-profile">👤 Profile</a>
+            <a href="/logout" class="btn-nav btn-nav-logout">🚪 Logout</a>
+        </div>
+    </div>
+
+    <!-- ================= CONTAINER ================= -->
+    <div class="container">
+
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb">
+            <a href="/dashboard">🏠 Home</a>
+            <span>›</span>
+            <a href="/placement">Student Placement Hub</a>
+            <span>›</span>
+            <span>AI Resume Analyzer & Search Hub</span>
+        </div>
+
+        <!-- HERO BANNER -->
+        <div class="hero">
+            <h1>🤖 AI Resume Analyzer & Search Hub</h1>
+            <p>
+                An intelligent Natural Language Processing (NLP) and Machine Learning platform that parses your resume,
+                evaluates ATS compatibility scores, detects critical skill gaps, identifies missing keywords, and matches you
+                against active campus recruitment openings in real-time.
+            </p>
+            <div class="hero-tags">
+                <span class="hero-tag">📄 PDF & DOCX Parser</span>
+                <span class="hero-tag">📊 TF-IDF Cosine Similarity</span>
+                <span class="hero-tag">🛠️ Automated Skill Gap Analysis</span>
+                <span class="hero-tag">🏢 Campus Recruiter Matching</span>
+                <span class="hero-tag">💡 Actionable ATS Recommendations</span>
+            </div>
+        </div>
+
+        <!-- ALERTS -->
+        {% if message %}
+        <div class="alert alert-success">
+            <span class="alert-icon">✅</span>
+            <div>{{ message }}</div>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="alert alert-error">
+            <span class="alert-icon">⚠️</span>
+            <div>{{ error }}</div>
+        </div>
+        {% endif %}
+
+        <!-- ================= WORKSPACE: STEP 1 & STEP 2 ================= -->
+        <div class="workspace-grid">
+
+            <!-- STEP 1: RESUME UPLOAD & PROFILE EXTRACTION -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        📄 1. Resume Document
+                    </div>
+                    <span class="step-pill">Step 1</span>
+                </div>
+
+                {% if resume_text %}
+                <!-- Active Resume In Session -->
+                <div class="active-resume-card">
+                    <div class="resume-file-info">
+                        <div class="resume-filename">
+                            <span>📑</span>
+                            <span>{{ resume_filename or 'Uploaded Resume' }}</span>
+                        </div>
+                        <span class="resume-meta-badge">✅ Parsed & Active</span>
+                    </div>
+
+                    <div class="resume-stats-row">
+                        <span>📝 <strong>{{ parsed_resume.word_count if parsed_resume else 'N/A' }}</strong> words</span>
+                        <span>•</span>
+                        <span>🛠️ <strong>{{ parsed_resume.skills.all|length if parsed_resume else 0 }}</strong> skills detected</span>
+                        <span>•</span>
+                        <span>🎯 Completeness: <strong>{{ parsed_resume.completeness_score if parsed_resume else 0 }}%</strong></span>
+                    </div>
+
+                    <div class="resume-actions">
+                        <button type="button" class="btn-outline-secondary" onclick="toggleResumePreview()">
+                            👁️ View Extracted Text
+                        </button>
+                        <a href="/resume-analyzer/clear" class="btn-outline-danger">
+                            🗑️ Replace / Clear Resume
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Extracted Profile Snapshot -->
+                {% if parsed_resume %}
+                <div class="snapshot-wrap">
+                    <div class="snapshot-title">
+                        🔍 Extracted Candidate Snapshot (NLP)
+                    </div>
+
+                    <div class="snapshot-grid">
+                        <div class="snapshot-item">
+                            <div class="snapshot-label">Email Detected</div>
+                            <div class="snapshot-val">{{ parsed_resume.email or 'Not specified' }}</div>
+                        </div>
+                        <div class="snapshot-item">
+                            <div class="snapshot-label">Phone Detected</div>
+                            <div class="snapshot-val">{{ parsed_resume.phone or 'Not specified' }}</div>
+                        </div>
+                        <div class="snapshot-item">
+                            <div class="snapshot-label">Qualifications / Degrees</div>
+                            <div class="snapshot-val">
+                                {% if parsed_resume.degrees %}
+                                    {{ parsed_resume.degrees|join(', ') }}
+                                {% else %}
+                                    B.Tech CSE (Profile)
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="snapshot-item">
+                            <div class="snapshot-label">CGPA Mentioned</div>
+                            <div class="snapshot-val">{{ parsed_resume.cgpa or (student['cgpa']|string + ' (Portal)') }}</div>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
+                        TECHNICAL SKILLS EXTRACTED:
+                    </div>
+                    <div class="skill-chips">
+                        {% for skill in parsed_resume.skills.technical %}
+                        <span class="chip chip-tech">💻 {{ skill }}</span>
+                        {% else %}
+                        <span style="font-size: 13px; color: #94a3b8;">No technical skills parsed.</span>
+                        {% endfor %}
+                    </div>
+
+                    {% if parsed_resume.skills.soft %}
+                    <div style="font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-top: 10px; margin-bottom: 6px;">
+                        SOFT SKILLS EXTRACTED:
+                    </div>
+                    <div class="skill-chips">
+                        {% for skill in parsed_resume.skills.soft %}
+                        <span class="chip chip-soft">🤝 {{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Collapsible Raw Text -->
+                <div id="rawResumeBox" style="display: none; margin-top: 16px;">
+                    <div style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
+                        Extracted Text View:
+                    </div>
+                    <div style="background: #f1f5f9; border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-size: 13px; max-height: 250px; overflow-y: auto; white-space: pre-wrap; line-height: 1.5;">
+                        {{ resume_text }}
+                    </div>
+                </div>
+
+                {% else %}
+                <!-- Upload Form -->
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="upload">
+                    <div class="dropzone" onclick="document.getElementById('resumeFileInput').click();">
+                        <div class="dropzone-icon">📤</div>
+                        <div class="dropzone-title">Upload Resume Document</div>
+                        <div class="dropzone-desc">Drag & drop your resume file or browse from device (PDF or DOCX format)</div>
+                        <div class="file-input-wrap">
+                            <input type="file" id="resumeFileInput" name="resume" accept=".pdf,.docx" class="file-input" required onclick="event.stopPropagation();">
+                        </div>
+                        <button type="submit" class="btn-upload" onclick="event.stopPropagation();">
+                            ⚡ Upload & Parse Resume
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+
+            <!-- STEP 2: JOB DESCRIPTION INPUT & TARGET ROLE -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        💼 2. Target Job Role / Description
+                    </div>
+                    <span class="step-pill">Step 2</span>
+                </div>
+
+                <!-- Tabs to choose job source -->
+                <div class="tab-buttons">
+                    <button type="button" class="tab-btn active" id="tabBtnCompanies" onclick="switchJobTab('companies')">
+                        🏢 Campus Recruiters
+                    </button>
+                    <button type="button" class="tab-btn" id="tabBtnPresets" onclick="switchJobTab('presets')">
+                        ⚡ Preset Roles
+                    </button>
+                    <button type="button" class="tab-btn" id="tabBtnCustom" onclick="switchJobTab('custom')">
+                        ✏️ Custom Description
+                    </button>
+                </div>
+
+                <!-- Form to Run Analysis -->
+                <form method="POST" id="analysisForm">
+                    <input type="hidden" name="action" value="analyze">
+                    <input type="hidden" name="company_id" id="selectedCompanyId" value="{{ selected_company_id }}">
+
+                    <!-- Tab 1: Campus Companies -->
+                    <div id="tabCompanies">
+                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+                            Select an active campus placement partner to auto-fill its job requirements:
+                        </div>
+                        <div class="company-select-grid">
+                            {% for comp in companies %}
+                            <div class="company-pill {% if selected_company_id|string == comp['id']|string %}selected{% endif %}"
+                                 onclick="selectCompany({{ comp['id'] }}, '{{ comp['name'] }}', '{{ comp['role'] }}', '{{ comp['required_skills'] }}', '{{ comp['package'] }}', '{{ comp['min_cgpa'] }}', '{{ comp['description']|replace('\'', '\\\'') }}')">
+                                <div class="company-pill-name">{{ comp['name'] }}</div>
+                                <div class="company-pill-role">{{ comp['role'] }}</div>
+                                <div class="company-pill-pkg">💰 {{ comp['package'] }} • Min {{ comp['min_cgpa'] }} CGPA</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Preset Roles -->
+                    <div id="tabPresets" style="display: none;">
+                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+                            Quick 1-click popular software industry job templates:
+                        </div>
+                        <div class="preset-buttons">
+                            <button type="button" class="preset-btn" onclick="setPreset('fullstack')">
+                                💻 Full-Stack Web Dev (React + Node + Python)
+                            </button>
+                            <button type="button" class="preset-btn" onclick="setPreset('datascience')">
+                                🤖 AI / Data Scientist (Python, ML, NLP, SQL)
+                            </button>
+                            <button type="button" class="preset-btn" onclick="setPreset('java')">
+                                ☕ Java Backend Developer (Spring Boot, Microservices)
+                            </button>
+                            <button type="button" class="preset-btn" onclick="setPreset('devops')">
+                                ☁️ Cloud & DevOps Engineer (AWS, Docker, CI/CD)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Custom Textarea -->
+                    <div id="tabCustom" style="display: block;">
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 6px;">
+                            Job Description Text / Requirements:
+                        </label>
+                        <textarea name="job_description" id="jobDescArea" class="jd-textarea" placeholder="Paste or edit the job description, required skills, and responsibilities here...">{{ job_description }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn-analyze">
+                        🚀 Run AI ATS Analysis & Skill Gap Audit
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- ================= ANALYSIS RESULTS DASHBOARD (IF GENERATED) ================= -->
+        {% if analysis %}
+        <div class="results-section" id="analysisResults">
+
+            <!-- HERO ATS SCORECARD -->
+            <div class="results-hero">
+                <div class="gauge-wrap">
+                    <!-- Dynamic Conic Gradient for score -->
+                    <div class="circular-gauge" style="background: conic-gradient({{ analysis.status_color }} 0% {{ analysis.ats_score }}%, #e2e8f0 {{ analysis.ats_score }}% 100%);">
+                        <div class="gauge-inner">
+                            <div class="gauge-score" style="color: {{ analysis.status_color }};">
+                                {{ analysis.ats_score }}<span class="gauge-percent">%</span>
+                            </div>
+                            <div class="gauge-label">ATS Compatibility</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-badge" style="background: {{ analysis.status_color }}20; color: {{ analysis.status_color }}; border: 1.5px solid {{ analysis.status_color }};">
+                        {{ analysis.rating }}
+                    </div>
+                </div>
+
+                <div class="results-meta">
+                    <h2>🎯 AI Resume Evaluation Results</h2>
+                    <p class="results-summary">
+                        {{ analysis.summary }}
+                    </p>
+
+                    <div class="score-pillars">
+                        <div class="pillar-card">
+                            <div class="pillar-val" style="color: #10b981;">{{ analysis.skill_match_pct }}%</div>
+                            <div class="pillar-label">Skill Match</div>
+                        </div>
+                        <div class="pillar-card">
+                            <div class="pillar-val" style="color: #6366f1;">{{ analysis.cosine_similarity_pct }}%</div>
+                            <div class="pillar-label">TF-IDF Similarity</div>
+                        </div>
+                        <div class="pillar-card">
+                            <div class="pillar-val" style="color: #07549a;">{{ analysis.completeness_score }}%</div>
+                            <div class="pillar-label">Resume Structure</div>
+                        </div>
+                        <div class="pillar-card">
+                            <div class="pillar-val" style="color: #f59e0b;">{{ analysis.matched_skills|length }} / {{ (analysis.matched_skills|length + analysis.missing_skills|length) }}</div>
+                            <div class="pillar-label">Skills Aligned</div>
+                        </div>
+                    </div>
+
+                    <div class="results-action-row">
+                        <button type="button" class="btn-action btn-print" onclick="window.print()">
+                            🖨️ Download / Print Official ATS Report
+                        </button>
+                        <a href="#campusSearchHub" class="btn-action btn-apply-direct">
+                            🏢 View Matching Campus Companies ↓
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TWO COLUMN MATRIX: SKILLS & SUGGESTIONS -->
+            <div class="results-grid">
+
+                <!-- COLUMN 1: SKILL GAP MATRIX -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            🛠️ Skill Gap Analysis
+                        </div>
+                        <span class="step-pill" style="background: #ecfdf5; color: #059669;">Core Matrix</span>
+                    </div>
+
+                    <!-- Matched Skills -->
+                    <div class="matrix-box" style="border-left: 4px solid #10b981; background: #f0fdf4;">
+                        <div class="matrix-title" style="color: #166534;">
+                            <span>✅ Matched Skills (Found in Resume)</span>
+                            <span class="badge-portal" style="background: #bbf7d0; color: #166534;">{{ analysis.matched_skills|length }}</span>
+                        </div>
+                        <div class="skill-chips">
+                            {% for skill in analysis.matched_skills %}
+                            <span class="chip chip-match">✓ {{ skill }}</span>
+                            {% else %}
+                            <span style="font-size: 13px; color: #94a3b8;">No direct skill overlap detected.</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Missing Skills -->
+                    <div class="matrix-box" style="border-left: 4px solid #ef4444; background: #fef2f2;">
+                        <div class="matrix-title" style="color: #991b1b;">
+                            <span>⚠️ Missing Required Skills (Recruiter Demands)</span>
+                            <span class="badge-portal" style="background: #fecaca; color: #991b1b;">{{ analysis.missing_skills|length }}</span>
+                        </div>
+                        <div class="skill-chips">
+                            {% for skill in analysis.missing_skills %}
+                            <span class="chip chip-miss">✗ {{ skill }}</span>
+                            {% else %}
+                            <span style="font-size: 13px; color: #166534; font-weight: 600;">🎉 Amazing! All required skills are present in your resume.</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Extra Bonus Skills -->
+                    {% if analysis.extra_skills %}
+                    <div class="matrix-box" style="border-left: 4px solid #6366f1; background: #f8fafc;">
+                        <div class="matrix-title" style="color: #4338ca;">
+                            <span>➕ Extra Skills in Resume (Bonus Strengths)</span>
+                            <span class="badge-portal" style="background: #e0e7ff; color: #4338ca;">{{ analysis.extra_skills|length }}</span>
+                        </div>
+                        <div class="skill-chips">
+                            {% for skill in analysis.extra_skills %}
+                            <span class="chip chip-extra">+ {{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- KEYWORD FREQUENCY / RELEVANCE TABLE -->
+                    <div style="margin-top: 20px;">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+                            🔑 High-Impact ATS Keywords in Job Posting:
+                        </div>
+                        <table class="keyword-table">
+                            <thead>
+                                <tr>
+                                    <th>Keyword</th>
+                                    <th>JD Weight</th>
+                                    <th>Resume Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for kw in analysis.keywords %}
+                                <tr>
+                                    <td><strong>{{ kw.keyword }}</strong></td>
+                                    <td>{{ kw.importance }}</td>
+                                    <td>
+                                        {% if kw.present %}
+                                        <span class="chip chip-match" style="padding: 2px 8px; font-size: 11px;">✓ Found</span>
+                                        {% else %}
+                                        <span class="chip chip-miss" style="padding: 2px 8px; font-size: 11px;">✗ Missing</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" style="text-align: center; color: #94a3b8;">No specific keywords parsed.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- COLUMN 2: ACTIONABLE AI IMPROVEMENT RECOMMENDATIONS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            💡 Personalized ATS Recommendations
+                        </div>
+                        <span class="step-pill" style="background: #fef3c7; color: #b45309;">AI Guidance</span>
+                    </div>
+
+                    <div class="suggestion-list">
+                        {% for sug in analysis.suggestions %}
+                        <div class="suggestion-card {{ sug.type }}">
+                            <div class="suggestion-head">
+                                {% if sug.type == 'critical' %}🚨
+                                {% elif sug.type == 'keyword' %}🔑
+                                {% elif sug.type == 'impact' %}📈
+                                {% elif sug.type == 'action_verbs' %}⚡
+                                {% else %}💡
+                                {% endif %}
+                                {{ sug.title }}
+                            </div>
+                            <div class="suggestion-text">
+                                {{ sug.detail }}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-success">
+                            🌟 Your resume satisfies all key technical and formatting parameters for this role!
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- RESUME STRUCTURE AUDIT -->
+                    <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border);">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">
+                            📋 Resume Structural Checklist:
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                            <div class="snapshot-item">
+                                <span style="color: {% if analysis.resume_parsed.sections.contact %}#10b981{% else %}#ef4444{% endif %}; font-weight: 700;">
+                                    {% if analysis.resume_parsed.sections.contact %}✓{% else %}✗{% endif %}
+                                </span> Contact Details
+                            </div>
+                            <div class="snapshot-item">
+                                <span style="color: {% if analysis.resume_parsed.sections.education %}#10b981{% else %}#ef4444{% endif %}; font-weight: 700;">
+                                    {% if analysis.resume_parsed.sections.education %}✓{% else %}✗{% endif %}
+                                </span> Education Section
+                            </div>
+                            <div class="snapshot-item">
+                                <span style="color: {% if analysis.resume_parsed.sections.skills %}#10b981{% else %}#ef4444{% endif %}; font-weight: 700;">
+                                    {% if analysis.resume_parsed.sections.skills %}✓{% else %}✗{% endif %}
+                                </span> Technical Skills Section
+                            </div>
+                            <div class="snapshot-item">
+                                <span style="color: {% if analysis.resume_parsed.sections.projects %}#10b981{% else %}#ef4444{% endif %}; font-weight: 700;">
+                                    {% if analysis.resume_parsed.sections.projects %}✓{% else %}✗{% endif %}
+                                </span> Projects Section
+                            </div>
+                            <div class="snapshot-item">
+                                <span style="color: {% if analysis.resume_parsed.sections.experience %}#10b981{% else %}#f59e0b{% endif %}; font-weight: 700;">
+                                    {% if analysis.resume_parsed.sections.experience %}✓{% else %}•{% endif %}
+                                </span> Experience / Internships
+                            </div>
+                            <div class="snapshot-item">
+                                <span style="color: {% if analysis.resume_parsed.quantifiable_metrics %}#10b981{% else %}#f59e0b{% endif %}; font-weight: 700;">
+                                    {% if analysis.resume_parsed.quantifiable_metrics %}✓{% else %}•{% endif %}
+                                </span> Quantified Metrics Detected
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        {% endif %}
+
+        <!-- ================= SECTION 4: INTEGRATED CENTRALIZED SEARCH HUB ================= -->
+        <div class="hub-section" id="campusSearchHub">
+            <div class="hub-header">
+                <div>
+                    <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: var(--primary);">
+                        🏢 Centralized Job Search Hub & Recruiter Match
+                    </h2>
+                    <p style="font-size: 14px; color: var(--text-muted);">
+                        Real-time ATS match ranking of campus placement drives based on your uploaded resume:
+                    </p>
+                </div>
+
+                <div class="hub-search-bar">
+                    <input type="text" id="jobSearchInput" class="search-input" placeholder="Search by role, company, skill (e.g. Python), or location..." onkeyup="filterJobs()">
+                </div>
+            </div>
+
+            <div class="company-cards-grid" id="companyCardsGrid">
+                {% for comp in company_matches %}
+                <div class="comp-job-card" data-role="{{ comp['role']|lower }}" data-company="{{ comp['name']|lower }}" data-skills="{{ comp['required_skills']|lower }}" data-location="{{ comp['location']|lower }}">
+                    <div>
+                        <div class="comp-header">
+                            <div>
+                                <div class="comp-name">{{ comp['name'] }}</div>
+                                <div class="comp-role">{{ comp['role'] }}</div>
+                            </div>
+                            <span class="comp-match-pill" style="background: {% if comp['ats_match'] >= 75 %}#dcfce7; color: #166534;{% elif comp['ats_match'] >= 50 %}#e0e7ff; color: #3730a3;{% else %}#fee2e2; color: #991b1b;{% endif %}">
+                                🎯 {{ comp['ats_match'] }}% Match
+                            </span>
+                        </div>
+
+                        <div class="comp-details-list">
+                            <div>💰 <strong>Package:</strong> {{ comp['package'] }}</div>
+                            <div>📍 <strong>Location:</strong> {{ comp['location'] }}</div>
+                            <div>🎓 <strong>Min CGPA:</strong> {{ comp['min_cgpa'] }}</div>
+                            <div>👥 <strong>Openings:</strong> {{ comp['openings'] }}</div>
+                        </div>
+
+                        <div class="comp-skills-wrap">
+                            <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">
+                                Required Skills:
+                            </div>
+                            <div class="skill-chips">
+                                {% for s in comp['required_skills'].split(',') %}
+                                <span class="chip chip-tech" style="font-size: 11px;">{{ s.strip() }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comp-actions">
+                        <a href="/resume-analyzer?company_id={{ comp['id'] }}" class="btn-card-analyze">
+                            ⚡ Quick Analyze
+                        </a>
+                        <a href="/companies" class="btn-card-apply">
+                            📝 Apply Role
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px;">
+                    Upload a resume to calculate live ATS match percentages across all campus recruiters.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            © 2026 AMITY7ONE Smart Campus • AI Resume Analyzer and Search Hub • Amity University
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        function toggleResumePreview() {
+            var box = document.getElementById('rawResumeBox');
+            if (box.style.display === 'none') {
+                box.style.display = 'block';
+            } else {
+                box.style.display = 'none';
+            }
+        }
+
+        function switchJobTab(tab) {
+            document.getElementById('tabBtnCompanies').classList.remove('active');
+            document.getElementById('tabBtnPresets').classList.remove('active');
+            document.getElementById('tabBtnCustom').classList.remove('active');
+
+            document.getElementById('tabCompanies').style.display = 'none';
+            document.getElementById('tabPresets').style.display = 'none';
+            document.getElementById('tabCustom').style.display = 'block';
+
+            if (tab === 'companies') {
+                document.getElementById('tabBtnCompanies').classList.add('active');
+                document.getElementById('tabCompanies').style.display = 'block';
+            } else if (tab === 'presets') {
+                document.getElementById('tabBtnPresets').classList.add('active');
+                document.getElementById('tabPresets').style.display = 'block';
+            } else {
+                document.getElementById('tabBtnCustom').classList.add('active');
+            }
+        }
+
+        function selectCompany(id, name, role, skills, pkg, cgpa, desc) {
+            document.getElementById('selectedCompanyId').value = id;
+
+            // Highlight selected pill
+            var pills = document.querySelectorAll('.company-pill');
+            pills.forEach(function(p) { p.classList.remove('selected'); });
+            event.currentTarget.classList.add('selected');
+
+            var fullText = "Company: " + name + "\n" +
+                           "Role: " + role + "\n" +
+                           "Required Skills: " + skills + "\n" +
+                           "Package: " + pkg + "\n" +
+                           "Eligibility: Minimum " + cgpa + " CGPA\n" +
+                           "Responsibilities & Description: " + desc;
+
+            document.getElementById('jobDescArea').value = fullText;
+        }
+
+        function setPreset(type) {
+            var text = "";
+            if (type === 'fullstack') {
+                text = "Role: Full-Stack Software Developer\n" +
+                       "Required Skills: React, Node.js, Python, JavaScript, HTML, CSS, REST API, SQL, Git\n" +
+                       "Responsibilities: Develop responsive client interfaces using modern JavaScript frameworks. Build and maintain server-side RESTful APIs and databases. Write clean, documented code and collaborate in Agile scrums.";
+            } else if (type === 'datascience') {
+                text = "Role: Data Scientist / ML Engineer\n" +
+                       "Required Skills: Python, Machine Learning, Deep Learning, NLP, Scikit-Learn, Pandas, NumPy, SQL, Data Analysis\n" +
+                       "Responsibilities: Train predictive models, evaluate precision/recall and confusion matrices, deploy machine learning pipelines, and extract insights from large datasets.";
+            } else if (type === 'java') {
+                text = "Role: Java Enterprise Backend Engineer\n" +
+                       "Required Skills: Java, Spring Boot, Microservices, Hibernate, MySQL, REST API, OOP, Docker, Git\n" +
+                       "Responsibilities: Design distributed microservices architecture, implement scalable business services, optimize database queries, and ensure 99.9% application uptime.";
+            } else if (type === 'devops') {
+                text = "Role: Cloud & DevOps Specialist\n" +
+                       "Required Skills: AWS, Docker, Kubernetes, Linux, CI/CD, Git, Python, Jenkins, Cloud Computing\n" +
+                       "Responsibilities: Automate containerized deployments, configure continuous integration pipelines, monitor cloud infrastructure, and enforce cloud security protocols.";
+            }
+            document.getElementById('jobDescArea').value = text;
+            document.getElementById('selectedCompanyId').value = "";
+        }
+
+        function filterJobs() {
+            var q = document.getElementById('jobSearchInput').value.toLowerCase();
+            var cards = document.querySelectorAll('.comp-job-card');
+
+            cards.forEach(function(card) {
+                var role = card.getAttribute('data-role') || '';
+                var comp = card.getAttribute('data-company') || '';
+                var skills = card.getAttribute('data-skills') || '';
+                var loc = card.getAttribute('data-location') || '';
+
+                if (role.includes(q) || comp.includes(q) || skills.includes(q) || loc.includes(q)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Auto-scroll to analysis results if just analyzed
+        window.addEventListener('DOMContentLoaded', function() {
+            var res = document.getElementById('analysisResults');
+            if (res) {
+                res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

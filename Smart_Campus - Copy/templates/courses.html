@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Courses</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            color: #222;
+        }
+
+        /* TOP BAR */
+        .top {
+            height: 78px;
+            background: #09579b;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .campus {
+            font-size: 20px;
+        }
+
+        .logout {
+            background: #f44336;
+            color: white;
+            text-decoration: none;
+
+            padding: 12px 22px;
+            border-radius: 5px;
+
+            font-size: 16px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 78px;
+            left: 0;
+
+            width: 230px;
+            height: calc(100vh - 78px);
+
+            background: white;
+            border-right: 1px solid #ddd;
+
+            overflow-y: auto;
+        }
+
+        .sidebar a {
+            display: block;
+
+            padding: 18px 15px;
+
+            color: #17324d;
+            text-decoration: none;
+
+            border-bottom: 1px solid #eee;
+
+            font-size: 17px;
+        }
+
+        .sidebar a:hover {
+            background: #f1f6fb;
+            color: #09579b;
+        }
+
+        .sidebar .active {
+            color: #09579b;
+            font-weight: bold;
+            background: #eef6ff;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 230px;
+            padding: 25px;
+        }
+
+        .breadcrumb {
+            color: #777;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        h1 {
+            color: #1769aa;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* COURSE BOX */
+        .course-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .course-header {
+            background: #f5f5f5;
+            padding: 18px;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #eeeeee;
+            color: #555;
+
+            text-align: left;
+            padding: 13px;
+
+            border-bottom: 1px solid #ccc;
+        }
+
+        td {
+            padding: 14px 13px;
+
+            border-bottom: 1px solid #ddd;
+
+            font-size: 16px;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .code {
+            color: #174f85;
+            font-weight: bold;
+        }
+
+        .faculty {
+            color: #555;
+        }
+
+        .type {
+            color: #333;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            td,
+            th {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top">
+
+        <div class="logo">
+            AMITY7ONE
+        </div>
+
+        <div class="campus">
+            Smart Campus
+        </div>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <a href="/dashboard">
+            🏠 Home
+        </a>
+
+        <a href="#">
+            📅 My Calendar
+        </a>
+
+        <a href="#">
+            📝 SAP
+        </a>
+
+        <a href="/courses" class="active">
+            📚 My Courses
+        </a>
+
+        <a href="#">
+            📝 Registration
+        </a>
+
+        <a href="#">
+            🕐 Time Table
+        </a>
+
+        <a href="#">
+            👥 My Faculty
+        </a>
+
+        <a href="#">
+            📋 Examination
+        </a>
+
+        <a href="#">
+            🎓 Student Placement Hub
+        </a>
+
+        <a href="#">
+            📄 Student Document
+        </a>
+
+        <a href="#">
+            💰 Fee Details
+        </a>
+
+        <a href="#">
+            📑 IAD
+        </a>
+
+        <a href="#">
+            💬 Student Support Hub
+        </a>
+
+        <a href="#">
+            🌐 The Global Times
+        </a>
+
+        <a href="#">
+            🎓 Scholarship
+        </a>
+
+        <a href="#">
+            📶 Register for Wifi
+        </a>
+
+        <a href="#">
+            🆔 ABC ID
+        </a>
+
+        <a href="#">
+            📚 Research Repository
+        </a>
+
+        <a href="#">
+            🏠 Hostel
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <div class="breadcrumb">
+            🏠 Home &nbsp;›&nbsp; My Courses
+        </div>
+
+        <h1>My Courses</h1>
+
+        <div class="course-box">
+
+            <div class="course-header">
+                Courses
+            </div>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Faculty</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td class="code">BSS504</td>
+                        <td>Behavioural Science – V (Group Dynamics and Team Building)</td>
+                        <td class="faculty">Dr Neha Gupta</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">—</td>
+                        <td>Biodiversity and Law</td>
+                        <td class="faculty">Dr Suman Paliwal</td>
+                        <td class="type">Flexi</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS501</td>
+                        <td>Communication Skills-III</td>
+                        <td class="faculty">Ms Padmakshi Sharma</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS503</td>
+                        <td>Computer Architecture</td>
+                        <td class="faculty">Mr Amit Chaurasia</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS523</td>
+                        <td>Computer Architecture Lab</td>
+                        <td class="faculty">Mr Amit Chaurasia</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">FLG501</td>
+                        <td>German</td>
+                        <td class="faculty">—</td>
+                        <td class="type">FBL</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS504</td>
+                        <td>Java Programming</td>
+                        <td class="faculty">Dr Sanjay Jain</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS524</td>
+                        <td>Java Programming Lab</td>
+                        <td class="faculty">Dr Sanjay Jain</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS502</td>
+                        <td>Software Engineering</td>
+                        <td class="faculty">Mrs Deepti Saxena</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS522</td>
+                        <td>Software Engineering Lab</td>
+                        <td class="faculty">Mrs Deepti Saxena</td>
+                        <td class="type">Compulsory</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS505</td>
+                        <td>Python Programming</td>
+                        <td class="faculty">Dr Taranpreet Singh Ruprah</td>
+                        <td class="type">Elective</td>
+                    </tr>
+
+                    <tr>
+                        <td class="code">BCS525</td>
+                        <td>Python Programming Lab</td>
+                        <td class="faculty">Dr Taranpreet Singh Ruprah</td>
+                        <td class="type">Elective</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="footer">
+            © 2026 AMITY7ONE Smart Campus
+        </div>
+
+    </div>
+
+</body>
+</html>
